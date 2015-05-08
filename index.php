@@ -2,6 +2,7 @@
 require 'vendor/autoload.php';
 //require 'celina/Pojedinacno.php'
 
+Flight::set('flight.log_errors', true);
 
 Flight::path(dirname(__FILE__) . '/celina');
 Flight::set('flight.views.path', 'public');
@@ -12,12 +13,12 @@ Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=chat'
 });
 
 
-/*Flight::map('notFound', function() {
+Flight::map('notFound', function() {
     echo '<h1>404 Not found</h1>';
 
     Flight::stop(404);
 });
-*/
+
 # Ruotes #
 # https://github.com/mikecao/flight/issues/34
 Flight::route('/username/@name', function($name) {
@@ -34,6 +35,8 @@ Flight::route('/username/@name', function($name) {
 });
 
 Flight::route('/la/@nesto',function ($nesto=""){
+
+	
 	$dbh = Flight::db();
 	$sth = $dbh->prepare("SELECT * FROM ajax_chat_messages");
 	$sth->execute();
@@ -62,6 +65,18 @@ Flight::route('/pojedin', array('Pojedinacno','hello'));
 Flight::route('/dva', function (){
 	//echo "joj";
 	Flight::render('index.html');
+});
+
+
+Flight::route('POST /cetiri', function (){
+	
+	print_r(Flight::request()->data);
+
+	
+	///Content-Type: multipart/form-data; 
+	///radi samo sa hederima form data, valjda je to ok
+	///radi i aplication/json
+	
 });
 
 
