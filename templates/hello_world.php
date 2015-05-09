@@ -7,6 +7,7 @@
 <body>
 	<p>First function result: <?php
 		echo "Hello {$name}";
-	?><p>
+	?>
+	<p>
 </body>
 </html>
