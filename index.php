@@ -4,11 +4,11 @@ require 'vendor/autoload.php';
 
 Flight::set('flight.log_errors', true);
 
-Flight::path(dirname(__FILE__) . '/celina');
+Flight::path(dirname(__FILE__) . '/controllers');
 Flight::set('flight.views.path', 'public');
 
 
-Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=chat', 'root', ''), function($db) {
+Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=crta', 'root', ''), function($db) {
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 });
 
@@ -21,27 +21,32 @@ Flight::map('notFound', function() {
 
 # Ruotes #
 # https://github.com/mikecao/flight/issues/34
-Flight::route('/username/@name', function($name) {
+Flight::route('/ime/@name', function($name) {
         $conn = Flight::db();
-        $data = $conn->query("SELECT * FROM ajax_chat_messages WHERE userName LIKE '%$name%' LIMIT 0, 30", PDO::FETCH_ASSOC/*PDO::FETCH_NUM*/);
-        		/*print_r('<pre>');
-        		print_r($data);
-        		print_r('</pre>');
-        		die();*/
+        $data = $conn->query("SELECT * FROM poslanik WHERE ime LIKE '%$name%' LIMIT 0, 30", PDO::FETCH_ASSOC/*PDO::FETCH_NUM*/);
+        		
         		 print_r(json_encode($data));
         foreach($data as $row) {
                
         }
 });
 
+$id ="";
+
+Flight::route('/poslanici', array('Poslanik','sviPoslanici'), Flight::request()->query);
+Flight::route('/nov', array('Poslanik','novPoslanik'));
+Flight::route('/izbrisi/@id', array('Poslanik','izbrisi'), $id );
+Flight::route('/izaberi/@id', array('Poslanik','select'), $id );
+
+
 Flight::route('/la/@nesto',function ($nesto=""){
 
 	
 	$dbh = Flight::db();
-	$sth = $dbh->prepare("SELECT * FROM ajax_chat_messages");
+	$sth = $dbh->prepare("SELECT * FROM poslanik");
 	$sth->execute();
 
-	
+	//ceo niz
 	$result = $sth->fetchAll(PDO::FETCH_ASSOC);
 			echo json_encode($result);
 
