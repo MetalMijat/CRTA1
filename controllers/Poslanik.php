@@ -64,6 +64,71 @@
 		 	print_r(json_encode($result));
         
 	    }
+	    public static function brojPoslanikaPoPolu($pol){
+	    	$conn = Flight::db();
+
+	    	/*select * from poslanik where pol = 2*/
+	    	$data = $conn->prepare("SELECT * FROM poslanik WHERE pol = ?");
+	    	$res = $data->execute(array($pol));
+	    	$result = $data->fetchAll(PDO::FETCH_ASSOC);
+
+	    	print_r(json_encode($result));
+
+	    }
+	    public static function prosecanPrihod(){
+	    	$conn = Flight::db();
+	    	
+	    	/*select avg(prihodi) from funkcija
+			inner join poslanik on poslanik.poslanikID = funkcija.poslanikID*/
+			$data = $conn->prepare("SELECT avg(prihodi) FROM funkcija
+			INNER JOIN poslanik ON poslanik.poslanikID = funkcija.poslanikID");
+			$res = $data->execute();
+			$result = $data->fetchAll(PDO::FETCH_ASSOC);
+
+			print_r(json_encode($result));
+	    }
+	    public static function prosecanPrihodPoPolu($pol){
+	    	$conn = Flight::db();
+
+	    	/*select avg(prihodi) from funkcija
+			inner join poslanik on poslanik.poslanikID = funkcija.poslanikID
+			where pol = 1*/
+			$data = $conn->prepare("SELECT avg(prihodi) FROM funkcija
+			INNER JOIN poslanik ON poslanik.poslanikID = funkcija.poslanikID
+			WHERE pol = ?");
+			$res = $data->execute($pol);
+			$result = $data->fetchAll(PDO::FETCH_ASSOC);
+
+			print_r(json_encode($result));
+
+	    }
+	    public static function ukupanPrihodPoslanika(){
+	    	$conn = Flight::db();
+
+	    	/*select sum(prihodi) from funkcija
+			inner join poslanik on poslanik.poslanikID = funkcija.poslanikID*/
+	    	$data = $conn->prepare("SELECT sum(prihodi) FROM funkcija
+			INNER JOIN poslanik ON poslanik.poslanikID = funkcija.poslanikID");
+			$res = $data->execute();
+			$result = $data->fetchAll(PDO::FETCH_ASSOC);
+
+			print_r(json_encode($result));
+
+	    }
+	    public static function ukupanPrihodPoslanikaPoPolu($pol){
+	    	$conn = Flight::db();
+
+	    	/*select sum(prihodi) from funkcija
+			inner join poslanik on poslanik.poslanikID = funkcija.poslanikID
+			where pol =1*/
+			$data = $conn->prepare("SELECT sum(prihodi) FROM funkcija
+			INNER JOIN poslanik ON poslanik.poslanikID = funkcija.poslanikID
+			WHERE pol = ?");
+			$res = $data->execute();
+			$result = $data->fetchAll(PDO::FETCH_ASSOC);
+
+			print_r(json_encode($result));
+	    }
 	}
 
 ?>
