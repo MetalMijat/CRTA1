@@ -265,13 +265,19 @@ header {
     text-align: center;
     color: #fff;
     background-attachment: scroll;
-    background-image: url(../img/Capture1111.PNG);
+    background-image: 
+        linear-gradient(
+            rgba(0,0,0,0.5),
+            rgba(0,0,0,0.5)
+            ),
+    url(../img/skupstina.png);
     background-position: center center;
     background-repeat: none;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
+
 }
 
 header .intro-text {
@@ -308,6 +314,7 @@ header .intro-text .intro-heading {
         font-size: 40px;
         font-style: italic;
         line-height: 40px;
+
     }
 
     header .intro-text .intro-heading {
@@ -448,6 +455,7 @@ section h3.section-subheading {
     position: relative;
     margin-bottom: 50px;
     min-height: 50px;
+    padding-top: 40px,
 }
 
 .timeline>li:before,
@@ -555,6 +563,7 @@ section h3.section-subheading {
         width: 41%;
         padding: 0 20px 20px 30px;
         text-align: right;
+
     }
 
     .timeline>li .timeline-image {
@@ -609,7 +618,7 @@ section h3.section-subheading {
     }
 
     .timeline>li .timeline-panel {
-        padding: 0 20px 20px 100px;
+        padding: 0 20px 20px 10px;
     }
 
     .timeline>li .timeline-image {
@@ -623,29 +632,11 @@ section h3.section-subheading {
     }
 
     .timeline>li.timeline-inverted>.timeline-panel {
-        padding: 0 100px 20px 20px;
+        padding: 0 40px 20px 20px;
     }
 }
 
-.team-member {
-    margin-bottom: 50px;
-    text-align: center;
-}
 
-.team-member img {
-    margin: 0 auto;
-    border: 7px solid #fff;
-}
-
-.team-member h4 {
-    margin-top: 25px;
-    margin-bottom: 0;
-    text-transform: none;
-}
-
-.team-member p {
-    margin-top: 0;
-}
 
 aside.clients img {
     margin: 50px auto;
