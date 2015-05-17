@@ -1,6 +1,6 @@
 <?php
 	class Poslanik {
-	    public static function hello() {
+	    public static function hello2() {
 	        echo 'hello world dva!';
 	    }
 
@@ -130,5 +130,4 @@
 			print_r(json_encode($result));
 	    }
 	}
-
 ?>

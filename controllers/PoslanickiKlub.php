@@ -91,7 +91,7 @@
 
 	 		$data = $conn->prepare("SELECT * FROM poslanik 
 			INNER JOIN poslanickiKlub ON poslanik.poslKlubID = poslanickiKlub.poslKlubID
-			WHERE poslanik.pol = /*potrebno odrediti oznaku za pol (0,1) ili (1,2)*/ AND poslanickiKlub.naziv = "?";");
+			WHERE poslanik.pol = 2 AND poslanickiKlub.naziv = '?';");
 	 		$res = $data->execute (array($klub));
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
@@ -217,5 +217,7 @@
 
 
 }
+
+	Fli
 
 ?>

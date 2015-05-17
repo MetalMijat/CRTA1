@@ -58,6 +58,7 @@ Flight::route('/la/@nesto',function ($nesto=""){
 
 Flight::route('/', function(){
     echo 'hello world!';
+
 });
 
 Flight::route('/req', function(){
@@ -83,7 +84,7 @@ Flight::route('POST /cetiri', function (){
 	///radi i aplication/json
 	
 });
-
+//var_dump(debug_backtrace());
 
 Flight::start();
 

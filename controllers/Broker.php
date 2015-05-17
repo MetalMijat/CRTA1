@@ -65,7 +65,7 @@ class Broker extends PDO {
             $set.=" " . $key . "=:$key,";
         }
         $set = rtrim($set, ",");
-        $sql = "UPDATE  " . $table . " SET $set WHERE $where ");
+        $sql = "UPDATE  " . $table . " SET $set WHERE $where ";
         $this->sth = $this->prepare($sql);
         foreach ($data as $key => $value) {
             $this->sth->bindValue(":" . $key, $value);
