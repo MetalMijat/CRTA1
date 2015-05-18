@@ -270,7 +270,7 @@ header {
             rgba(25,27,53,0.7),
             rgba(25,27,53,0.7)
             ),
-    url(../img/skupstina.png);
+    url(../img/skupstina.jpg);
     background-position: center center;
     background-repeat: none;
     -webkit-background-size: cover;
@@ -646,7 +646,7 @@ section h3.section-subheading {
 
 
 aside.clients img {
-    margin: 50px auto;
+    margin: 0px 220px 40px ;
 }
 
 section#contact {
