@@ -129,5 +129,10 @@
 
 			print_r(json_encode($result));
 	    }
+	    public static function testMetoda(){
+	    	$test = array("1" => "Prvi", "2" => "Drugi", "3" => "Treci");
+
+	    	print_r(json_encode($test));
+	    }
 	}
 ?>
