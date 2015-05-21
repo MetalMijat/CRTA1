@@ -58,6 +58,7 @@ Flight::route('/la/@nesto',function ($nesto=""){
 
 Flight::route('/', function(){
     echo 'hello world!';
+    echo dirname(__FILE__);
 
 });
 
