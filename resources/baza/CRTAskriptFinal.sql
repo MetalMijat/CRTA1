@@ -20,6 +20,7 @@ DROP TABLE IF EXISTS PrevoznoSredstvo;
 DROP TABLE IF EXISTS PromPrevSredstva;
 DROP TABLE IF EXISTS DodeljenStan;
 DROP TABLE IF EXISTS PromDodStana;
+DROP TABLE IF EXISTS RepublickiProsek;
 CREATE TABLE IF NOT EXISTS Poslanik(
 	PoslanikID	INT(20),
 	IzvorPodataka varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -172,6 +173,13 @@ CREATE TABLE IF NOT EXISTS PromDodStana(
 	DatumDO DATE,
 	PRIMARY KEY(PromenePravaKorID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE IF NOT EXISTS RepublickiProsek(
+	RepublickiProsekID INT(20),
+	Datum varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
+	Datumd DATE,
+	Iznos INT(20),
+	PRIMARY KEY(RepublickiProsekID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DROP PROCEDURE IF EXISTS crta_insert_stranka;
 CREATE PROCEDURE crta_insert_stranka
@@ -276,3 +284,8 @@ CREATE PROCEDURE crta_insert_promenaposlanickogkluba
 (IN poslanikID INT(10), IN sposlklubID INT(10), IN datumod DATE, IN datumdo DATE, IN id INT(10))
 INSERT INTO PromenaPoslanickogKluba(PoslanikID, PoslKlubID, DatumOD, DatumDO, PromenaStrankeID) 
 VALUES(poslanikID, sposlklubID, datumod, datumdo, id);
+
+DROP PROCEDURE IF EXISTS crta_insert_republickiprosek;
+CREATE PROCEDURE crta_insert_republickiprosek
+(IN id INT(20), IN datum varchar(100), IN datumd DATE, IN iznos FLOAT(15)) 
+INSERT INTO RepublickiProsek(RepublickiProsekID, Datum, Datumd, Iznos) VALUES(id, datum, datumd, iznos);
