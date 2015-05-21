@@ -68,6 +68,7 @@ Flight::route('/req', function(){
 
 
 Flight::route('/pojedin', array('Pojedinacno','hello'));
+//Test metode za server
 Flight::route('/poslanik', array('Poslanik','testMetoda'));
 Flight::route('/dva', function (){
 	//echo "joj";
