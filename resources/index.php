@@ -13,11 +13,11 @@ Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=crta'
 });
 
 
-Flight::map('notFound', function() {
+/*Flight::map('notFound', function() {
     echo '<h1>404 Not found</h1>';
 
     Flight::stop(404);
-});
+});*/
 
 # Ruotes #
 # https://github.com/mikecao/flight/issues/34
