@@ -17,6 +17,8 @@
     <!-- Custom CSS -->
     <link href="css/agency.css" rel="stylesheet">
     <link rel="stylesheet" href="css/prvi.css">
+    <link rel="stylesheet" href="css/sesti.css">
+
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -25,17 +27,14 @@
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    <script src="d3.v3.min.js"></script>
+    <script src="d3-tip.js"></script>
+     
 
 
 
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
 
 </head>
 
@@ -502,7 +501,8 @@
                             <!-- Project Details Go Here -->
                             <h2>Broj plata poslanika</h2>
                             
-                            
+                            <div id="sestiDijagram"></div>
+
                             <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
                         </div>
                     </div>
@@ -530,6 +530,7 @@
     <script src="js/agency.js"></script>
     
     <script src="js/prvi.js"></script>  
+    <script src="js/sesti.js"></script> 
 
 
     <script>
@@ -543,6 +544,22 @@
 
            function ucitajGraf (naziv) {
                if (naziv = "portfolioModal1")  prviGraf();
+           }
+        })
+
+    </script>
+
+    <script>
+        $(function () {
+            $(".portfolio-link").click(function (e) {
+                var nazivModala = e.currentTarget.hash;
+
+                ucitajGraf(nazivModala);
+
+            })
+
+           function ucitajGraf (naziv) {
+               if (naziv = "portfolioModal6")  sestiGraf();
            }
         })
 
