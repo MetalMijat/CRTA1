@@ -22,24 +22,25 @@ DROP TABLE IF EXISTS DodeljenStan;
 DROP TABLE IF EXISTS PromDodStana;
 CREATE TABLE IF NOT EXISTS Poslanik(
 	PoslanikID	INT(20),
-	IzvorPodataka VARCHAR(20),
-	Drzava VARCHAR(20),
-	Ime VARCHAR(20),
-	Prezime VARCHAR(70),
+	IzvorPodataka varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+	Drzava varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+	Ime varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+	Prezime varchar(70) COLLATE utf8_unicode_ci DEFAULT NULL,
 	Pol TINYINT(1), 
 	StrankaID INT(20),
 	PoslKlubID INT(20),
 	MestoPoslID INT(20),
 	OpozicijID INT(20),
+	Godiste VARCHAR(10),
 	Slika LONGBLOB,
 	PRIMARY KEY(PoslanikID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS Stranka(
 	StrankaID INT(20),
-	Naziv VARCHAR(40),
+	Naziv varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 	DatumOsnivanja DATE,
 	PRIMARY KEY(StrankaID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS PromenaStranke(
 	PoslanikID INT(20),
 	StrankaID INT(20),
@@ -47,14 +48,14 @@ CREATE TABLE IF NOT EXISTS PromenaStranke(
 	DatumDO DATE,
 	PromenaStrankeID INT(20),
 	PRIMARY KEY(PromenaStrankeID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS PoslanickiKlub(
 	PoslKlubID INT(20),
-	Naziv VARCHAR(40),
+	Naziv varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 	StrankaID INT(20),
-	Saziv VARCHAR(40),
+	Saziv varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 	PRIMARY KEY(PoslKlubID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS PromenaPoslanickogKluba(
 	PoslanikID INT(20),
 	PoslKlubID INT(20),
@@ -62,59 +63,60 @@ CREATE TABLE IF NOT EXISTS PromenaPoslanickogKluba(
 	DatumDO DATE,
 	PromKlubaID INT(20),
 	PRIMARY KEY(PromKlubaID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS Mesto(
 	MestoID INT(20),
-	Naziv VARCHAR(40),
+	Naziv varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+	Opstina varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 	PRIMARY KEY(MestoID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS Funkcija(
 	FunkcijaID INT(20),
-	Naziv VARCHAR(40),
+	Naziv varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 	UstanovaID INT(20),
 	Prihodi FLOAT(15),
 	VremeOD DATE,
 	VremeDO DATE,
-	IntervalF VARCHAR(40),
+	IntervalF varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 	PoslanikID INT(20),
-	Valuta VARCHAR(40),
+	Valuta varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 	IzvorPrihodaID INT(20),
 	PRIMARY KEY(FunkcijaID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS Ustanova(
 	UstanovaID INT(20),
-	Naziv VARCHAR(40),
+	Naziv varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 	PRIMARY KEY(UstanovaID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS IzvorPrihoda(
 	IzvorPrihodaID INT(20),
-	Naziv VARCHAR(40),
+	Naziv varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 	PRIMARY KEY(IzvorPrihodaID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS NepokretnaImovina(
 	NepokretnaImovinaID INT(20),
-	Tip VARCHAR(40),
-	Stuktura VARCHAR(40),
+	Tip varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+	Stuktura varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 	Povrsina FLOAT(10),
-	JedinicaMerePovrsine VARCHAR(40),
-	VlasnickiUdeo VARCHAR(40),
-	OsnovSticanja VARCHAR(40),
+	JedinicaMerePovrsine varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+	VlasnickiUdeo varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+	OsnovSticanja varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 	PoslanikID INT(20),
 	PromenaNIID INT(20),
 	PRIMARY KEY(NepokretnaImovinaID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS PromenaNepokretneImovine(
 	PromenaNIID INT(20),
 	PoslanikID INT(20),
 	DatumOD DATE,
 	DatumDO DATE,
 	PRIMARY KEY(PromenaNIID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS Opozicija(
 	OpozicijaID INT(20),
 	Opozicija TINYINT(1),
 	PRIMARY KEY(OpozicijaID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS PromenaOpozicije(
 	OpozicijaID INT(20),
 	PoslanikID INT(20),
@@ -122,95 +124,95 @@ CREATE TABLE IF NOT EXISTS PromenaOpozicije(
 	DatumDO DATE,
 	PromOpozicijaID INT(20),
 	PRIMARY KEY(PromOpozicijaID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS Depozit(
 	DepozitID INT(20),
 	PromenaDepozitaID INT(20),
 	Ima TINYINT(1),
 	PoslanikID INT(20),
 	PRIMARY KEY(DepozitID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS PromenaDepozita(
 	PromenaDepozitaID INT(20),
 	PoslanikID INT(20),
 	DatumOD DATE,
 	DatumDO DATE,
 	PRIMARY KEY(PromenaDepozitaID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS PrevoznoSredstvo(
 	PrevoznoSredstvoID INT(20),
-	Tip VARCHAR(40),
+	Tip varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 	GodinaProizvodnje INT(10), 
-	OsnovSticanja VARCHAR(40),
+	OsnovSticanja varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 	PoslanikID INT(20),
 	PromenaPSID INT(20),
 	PRIMARY KEY(PrevoznoSredstvoID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS PromPrevSredstva(
 	PromenaPSID INT(20),
 	PoslanikID INT(20),
 	DatumOD DATE,
 	DatumDO DATE,
 	PRIMARY KEY(PromenaPSID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS DodeljenStan(
 	PravoKoriscenaStanaID INT(20),
 	MestoID INT(20),
-	Struktura VARCHAR(40),
+	Struktura varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 	Povrsina FLOAT(10),
-	OsnovDodele VARCHAR(40),
+	OsnovDodele varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 	PromenaPravaKorID INT(20),
 	PoslanikID INT(20),
 	PRIMARY KEY(PravoKoriscenaStanaID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE TABLE IF NOT EXISTS PromDodStana(
 	PromenePravaKorID INT(20),
 	PoslanikID INT(20),
 	DatumOd DATE,
 	DatumDO DATE,
 	PRIMARY KEY(PromenePravaKorID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DROP PROCEDURE IF EXISTS crta_insert_stranka;
 CREATE PROCEDURE crta_insert_stranka
-(IN id INT(20), IN naziv VARCHAR(40), IN datum DATE) 
+(IN id INT(20), IN naziv varchar(100), IN datum DATE) 
 INSERT INTO Stranka(StrankaID, Naziv, DatumOsnivanja) VALUES(id, naziv, datum);
 
 DROP PROCEDURE IF EXISTS crta_insert_poslanickiklub;
 CREATE PROCEDURE crta_insert_poslanickiklub
-(IN id INT(20), IN naziv VARCHAR(40), IN StrankaID INT(20), IN Saziv VARCHAR(40))
+(IN id INT(20), IN naziv varchar(100), IN StrankaID INT(20), IN Saziv varchar(100))
 INSERT INTO PoslanickiKlub(PoslKlubID, Naziv, StrankaID, Saziv) VALUES(id, naziv, StrankaID, Saziv);
 
 DROP PROCEDURE IF EXISTS crta_insert_mesta;
 CREATE PROCEDURE crta_insert_mesta
-(IN id INT(20), IN naziv VARCHAR(40))
-INSERT INTO Mesto(MestoID, Naziv) VALUES(id, naziv);
+(IN id INT(20), IN naziv varchar(100), IN opstina varchar(100))
+INSERT INTO Mesto(MestoID, Naziv, Opstina) VALUES(id, naziv, opstina);
 
 DROP PROCEDURE IF EXISTS crta_insert_ustanova;
 CREATE PROCEDURE crta_insert_ustanova
-(IN id INT(20), IN naziv VARCHAR(40))
+(IN id INT(20), IN naziv varchar(100))
 INSERT INTO Mesto(UstanovaID, Naziv) VALUES(id, naziv);
 
 DROP PROCEDURE IF EXISTS crta_insert_izvorprihoda;
 CREATE PROCEDURE crta_insert_izvorprihoda
-(IN id INT(20), IN naziv VARCHAR(40))
+(IN id INT(20), IN naziv varchar(100))
 INSERT INTO Mesto(IzvorPrihodaID, Naziv) VALUES(id, naziv);
 
 DROP PROCEDURE IF EXISTS crta_insert_poslanik;
 CREATE PROCEDURE crta_insert_poslanik
-(IN id INT(20), IN izvor VARCHAR(40),IN drzava VARCHAR(40),IN ime VARCHAR(20), IN prezime VARCHAR(40), IN pol TINYINT(1), IN strankaid INT(10), IN poslklubid INT(10), IN mestoid INT(10), IN opozid INT(10), IN slika BLOB)
-INSERT INTO Poslanik(PoslanikID, IzvorPodataka, Drzava, Ime, Prezime, Pol, StrankaID, PoslKlubID, MestoPoslID, OpozicijaID, Slika) 
-VALUES(id, izvor, drzava, ime, prezime, pol, strankaid, poslklubid, mestoid, opozid, slika);
+(IN id INT(20), IN izvor varchar(100),IN drzava varchar(100),IN ime VARCHAR(20), IN prezime varchar(100), IN pol TINYINT(1), IN strankaid INT(10), IN poslklubid INT(10), IN mestoid INT(10), IN opozid INT(10),IN godiste VARCHAR(10), IN slika BLOB)
+INSERT INTO Poslanik(PoslanikID, IzvorPodataka, Drzava, Ime, Prezime, Pol, StrankaID, PoslKlubID, MestoPoslID, OpozicijaID, Godiste, Slika) 
+VALUES(id, izvor, drzava, ime, prezime, pol, strankaid, poslklubid, mestoid, opozid,godiste, slika);
 
 DROP PROCEDURE IF EXISTS crta_insert_funkcija;
 CREATE PROCEDURE crta_insert_funkcija
-(IN id INT(20), IN naziv VARCHAR(40), IN ustanovaID VARCHAR(40), IN prihodi FLOAT(20), IN vrmeod DATE, IN vremedo DATE, IN intervalf VARCHAR(40), IN poslanikid INT(10), IN valuta VARCHAR(20), IN izvorprihodaid INT(10) )
+(IN id INT(20), IN naziv varchar(100), IN ustanovaID varchar(100), IN prihodi FLOAT(20), IN vrmeod DATE, IN vremedo DATE, IN intervalf varchar(100), IN poslanikid INT(10), IN valuta VARCHAR(20), IN izvorprihodaid INT(10) )
 INSERT INTO Funkcija(FunkcijaID, Naziv, UstanovaID, Prihodi, VremeOD, VremeDO, IntervalF, PoslanikID, Valuta, IzvorPrihodaID) 
 VALUES(id, naziv, ustanovaID, prihodi, vrmeod, vremedo, intervalf, poslanikid, valuta, izvorprihodaid);
 
 DROP PROCEDURE IF EXISTS crta_insert_nepokretnaimovina;
 CREATE PROCEDURE crta_insert_nepokretnaimovina
-(IN id INT(10), IN tip VARCHAR(40), IN struktura VARCHAR(40), IN povrsina FLOAT(20), IN jedinica VARCHAR(40), IN udeo VARCHAR(40), IN sticanje VARCHAR(40), IN poslanikID INT(10), IN promenaniID INT(10))
+(IN id INT(10), IN tip varchar(100), IN struktura varchar(100), IN povrsina FLOAT(20), IN jedinica varchar(100), IN udeo varchar(100), IN sticanje varchar(100), IN poslanikID INT(10), IN promenaniID INT(10))
 INSERT INTO NepokretnaImovina(NepokretnaImovinaID, Tip, Struktura, Povrsina, JedinicaMerePovrsine, VlasnickuUdeo, OsnovSticanja, PoslanikID, PromenaNIID)
 VALUES(id, tip, struktura, povrsina, jedinica, udeo, sticanje, poslanikID, promenaniID);
 
@@ -226,13 +228,13 @@ INSERT INTO Depozit(DepozitID, PromenaDepozitaID, Ima, PoslanikID) VALUES(id, pr
 
 DROP PROCEDURE IF EXISTS crta_insert_prevoznosredstvo;
 CREATE PROCEDURE crta_insert_prevoznosredstvo
-(IN id INT(10), IN tip VARCHAR(40), IN godiste INT(10), IN osnovsticanja VARCHAR(40), IN poslanikID INT(10), IN promenapsID INT(10))
+(IN id INT(10), IN tip varchar(100), IN godiste INT(10), IN osnovsticanja varchar(100), IN poslanikID INT(10), IN promenapsID INT(10))
 INSERT INTO PrevoznoSredstvo(PrevoznoSredstvoID, Tip, GodinaProizvodnje, OsnovSticanja, PoslanikID, PromenaPSID) 
 VALUES(id, tip, godiste, osnovsticanja, poslanikID, promenapsID);
 
 DROP PROCEDURE IF EXISTS crta_insert_dodeljenstan;
 CREATE PROCEDURE crta_insert_dodeljenstan
-(IN id INT(10), IN mestoID INT(10), IN struktura VARCHAR(40), IN povrsina FLOAT(20), IN osnovdodele VARCHAR(40), IN promenapkID INT(10), IN poslanikID INT(10))
+(IN id INT(10), IN mestoID INT(10), IN struktura varchar(100), IN povrsina FLOAT(20), IN osnovdodele varchar(100), IN promenapkID INT(10), IN poslanikID INT(10))
 INSERT INTO DodeljenStan(PravoKoriscenaStanaID, MestoID, Struktura, Povrsina, OsnovDodele, PromenaPravKorID, PoslanikID) 
 VALUES(id, mestoID, struktura, povrsina, osnovdodele, promenapkID, poslanikID);
 
