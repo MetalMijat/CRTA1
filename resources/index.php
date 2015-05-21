@@ -1,6 +1,5 @@
 <?php
-require 'flight/Flight.php';
-//require 'vendor/autoload.php';
+require 'vendor/autoload.php';
 //require 'celina/Pojedinacno.php'
 
 Flight::set('flight.log_errors', true);
