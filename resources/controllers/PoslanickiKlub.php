@@ -149,7 +149,7 @@
 	 			"SELECT avg(Prihodi) FROM Poslanik
 				 INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
 			 inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
-			 where PoslKlub.Naziv = ?");
+			 where PoslKlub.kratak = ?");
 	 		$res = $data->execute (array($klub['klub']));
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
