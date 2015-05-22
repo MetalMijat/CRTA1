@@ -150,7 +150,7 @@
 				 INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
 			 inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
 			 where PoslKlub.Naziv = ?");
-	 		$res = $data->execute (array($klub));
+	 		$res = $data->execute (array($klub['klub']));
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
 	 		print_r(json_encode($result));
