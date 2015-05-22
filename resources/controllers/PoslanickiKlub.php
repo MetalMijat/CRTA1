@@ -146,10 +146,10 @@
 			;*/
 
 	 		$data = $conn->prepare(
-	 			"SELECT avg(Prihodi) FROM Poslanik"
-			." INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID"
-			." inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID"
-			." where PoslKlub.Naziv = ?");
+	 			"SELECT avg(Prihodi) FROM Poslanik
+				 INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
+			 inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
+			 where PoslKlub.Naziv = ?");
 	 		$res = $data->execute (array($klub));
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
@@ -223,11 +223,11 @@
 			group by PoslKlub.PoslKlubID*/
 
 			$data = $conn->prepare(
-				"SELECT PoslKlub.Naziv, avg(Prihodi) FROM Poslanik"
-			." INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID"
-			." inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID"
-			." where ( Funkcija.VremeOD > (curdate() -  interval 2 YEAR) )"
-			." group by PoslKlub.PoslKlubID");
+				"SELECT PoslKlub.Naziv, avg(Prihodi) FROM Poslanik
+			 INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
+			 inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
+			 where ( Funkcija.VremeOD > (curdate() -  interval 2 YEAR) )
+			 group by PoslKlub.PoslKlubID");
 			$res = $data->execute();
 			$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
