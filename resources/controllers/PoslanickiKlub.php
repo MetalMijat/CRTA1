@@ -223,7 +223,7 @@
 			group by PoslKlub.PoslKlubID*/
 
 			$data = $conn->prepare(
-				"SELECT PoslKlub.Naziv, avg(Prihodi) FROM Poslanik
+				"SELECT PoslKlub.Naziv, avg(Prihodi) as prihod FROM Poslanik
 			 INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
 			 inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
 			 where ( Funkcija.VremeOD > (curdate() -  interval 2 YEAR) )
