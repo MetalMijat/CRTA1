@@ -1,5 +1,5 @@
 <?php
-	class poslanickiKlub {
+	class PoslanickiKlub {
 	   public static function hello() {
 	        echo "Mi smo stranka";
 	    }
@@ -91,7 +91,7 @@
 
 	 		$data = $conn->prepare("SELECT * FROM poslanik 
 			INNER JOIN poslanickiKlub ON poslanik.poslKlubID = poslanickiKlub.poslKlubID
-			WHERE poslanik.pol = 2 AND poslanickiKlub.naziv = '?';");
+			WHERE poslanik.pol = 2 AND poslanickiKlub.naziv = ?;");
 	 		$res = $data->execute (array($klub));
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
@@ -110,7 +110,7 @@
 	 		$data = $conn->prepare("SELECT * FROM poslanik
 			INNER JOIN funkcija ON funkcija.poslanikID = poslanik.poslanikID
 			INNER JOIN poslanickiKlub ON poslanik.PoslKlubID = poslanickiKlub.PoslKlubID
-			WHERE poslanickiKlub.Naziv = '?'");
+			WHERE poslanickiKlub.Naziv = ?");
 	 		$res = $data->execute (array($klub));
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
@@ -129,7 +129,7 @@
 	 		$data = $conn->prepare("SELECT COUNT(*) FROM poslanik
 			INNER JOIN funkcija ON funkcija.poslanikID = poslanik.poslanikID
 			INNER JOIN poslanickiKlub ON poslanik.PoslKlubID = poslanickiKlub.PoslKlubID
-			WHERE poslanickiKlub.Naziv = '?'");
+			WHERE poslanickiKlub.Naziv = ?");
 	 		$res = $data->execute (array($klub));
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
@@ -139,16 +139,16 @@
 	  public static function prosecniPrihodiUKlubu($klub){
 	 		$conn = Flight::db();
 	 		 
-   			/*select avg(prihodi) from poslanik
-			inner join funkcija on funkcija.poslanikID = poslanik.poslanikID
-			inner join poslanickiKlub on poslanik.PoslKlubID = poslanickiKlub.PoslKlubID
-			where poslanickiKlub.Naziv = 'SNS'
+   			/*sSELECT avg(Prihodi) FROM Poslanik
+			INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
+			inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
+			where PoslKlub.Naziv = "Demokratska stranka"
 			;*/
 
-	 		$data = $conn->prepare("SELECT avg(prihodi) FROM poslanik
-			INNER JOIN funkcija ON funkcija.poslanikID = poslanik.poslanikID
-			INNER JOIN poslanickiKlub ON poslanik.PoslKlubID = poslanickiKlub.PoslKlubID
-			WHERE poslanickiKlub.Naziv = '?'");
+	 		$data = $conn->prepare("SELECT avg(Prihodi) FROM Poslanik
+			INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
+			inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
+			where PoslKlub.Naziv = ?");
 	 		$res = $data->execute (array($klub));
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
@@ -167,7 +167,7 @@
 	 		$data = $conn->prepare("SELECT sum(prihodi) FROM poslanik
 			INNER JOIN funkcija ON funkcija.poslanikID = poslanik.poslanikID
 			INNER JOIN poslanickiKlub ON poslanik.PoslKlubID = poslanickiKlub.PoslKlubID
-			WHERE poslanickiKlub.Naziv = '?'");
+			WHERE poslanickiKlub.Naziv = ?");
 	 		$res = $data->execute (array($klub));
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
@@ -186,7 +186,7 @@
 	 		$data = $conn->prepare("SELECT avg(prihodi) FROM poslanik
 			INNER JOIN funkcija ON funkcija.poslanikID = poslanik.poslanikID
 			INNER JOIN poslanickiKlub ON poslanik.PoslKlubID = poslanickiKlub.PoslKlubID
-			WHERE poslanickiKlub.Naziv = '?' AND pol = ?");
+			WHERE poslanickiKlub.Naziv = ? AND pol = ?");
 	 		$res = $data->execute (array($klub,$pol));
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
@@ -205,19 +205,48 @@
 	 		$data = $conn->prepare("SELECT sum(prihodi) FROM poslanik
 			INNER JOIN funkcija ON funkcija.poslanikID = poslanik.poslanikID
 			INNER JOIN poslanickiKlub ON poslanik.PoslKlubID = poslanickiKlub.PoslKlubID
-			WHERE poslanickiKlub.Naziv = '?' AND pol = ?");
+			WHERE poslanickiKlub.Naziv = ? AND pol = ?");
 	 		$res = $data->execute (array($klub, $pol));
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
 	 		print_r(json_encode($result));
+	 	}
+
+	 public static function prosecniPrihodiPoVremenu(){
+	 		$conn = Flight::db();
+
+	 		/*SELECT PoslKlub.Naziv, avg(Prihodi) FROM Poslanik
+			INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
+			inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
+			where ( Funkcija.VremeOD > (curdate() -  interval 2 YEAR) )
+			group by PoslKlub.PoslKlubID*/
+
+			$data = $conn->prepare("SELECT PoslKlub.Naziv, avg(Prihodi) FROM Poslanik
+			INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
+			inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
+			where ( Funkcija.VremeOD > (curdate() -  interval 2 YEAR) )
+			group by PoslKlub.PoslKlubID");
+			$res = $data->execute();
+			$result = $data->fetchAll(PDO::FETCH_ASSOC);
+
+			print_r(json_encode($result));
 
 	 }
+	 public static function strukturaPoGodinama() {
+	 		$conn = Flight::db();
 
+	 		/*SELECT godiste, count(*) as broj FROM `Poslanik` group by godiste*/
 
+	 		$data = $conn->prepare("SELECT godiste, count(*) as broj FROM `Poslanik` group by godiste");
+	 		$res = $data->execute();
+			$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
+			print_r(json_encode($result));
+	 }
+	
 
+	 
 }
 
-	Fli
 
 ?>

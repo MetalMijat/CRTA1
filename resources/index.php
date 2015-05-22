@@ -22,6 +22,34 @@ Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=crta'
     Flight::stop(404);
 });*/
 
+
+
+
+Flight::route('/godista', array('PoslanickiKlub','strukturaPoGodinama'));
+Flight::route('/povrsina', array('NepokretnaImovina','povrsinaStambenihJedinica'));
+Flight::route('/opstine', array('Poslanik','prihodiPoOpstinama'));
+
+
+
+Flight::route('/prihodiPoslKlub', array('PoslanickiKlub','prosecniPrihodiPoVremenu'));
+Flight::route('/poslanikPrimanja', array('Poslanik','ukupnaPrimanjaPoGodini'));
+Flight::route('/poslKlubProsek', array('PoslanickiKlub','prosecniPrihodiUKlubu'));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Ruotes #
 # https://github.com/mikecao/flight/issues/34
 Flight::route('/ime/@name', function($name) {
@@ -68,6 +96,7 @@ Flight::route('/', function(){
 Flight::route('/req', function(){
     var_dump(Flight::request());
 });
+
 
 
 

@@ -134,5 +134,43 @@
 
 	    	echo json_encode($test);
 	    }
+	    public static function ukupnaPrimanjaPoGodini(){
+	    	$conn = Flight::db();
+
+	    	/*SELECT Ime, Prezime, Funkcija.Naziv, Prihodi  FROM Poslanik
+			INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
+			inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
+			where ( Funkcija.VremeOD > (curdate() -  interval 2 YEAR) )
+			group by Poslanik.PoslanikID*/
+			$data = $conn->prepare("SELECT Ime, Prezime, Funkcija.Naziv, Prihodi  FROM Poslanik
+			INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
+			inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
+			where ( Funkcija.VremeOD > (curdate() -  interval 2 YEAR) )
+			group by Poslanik.PoslanikID");
+			$res = $data->execute();
+			$result = $data->fetchAll(PDO::FETCH_ASSOC);
+
+			print_r($result);
+	    }
+	     public static function prihodiPoOpstinama(){
+	 	$conn = Flight::db();
+
+	 	/**SELECT  Mesto.Opstina, Mesto.Naziv, avg(Funkcija.Prihodi) FROM Poslanik
+		INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
+		inner join Mesto on Mesto.MestoID = Poslanik.MestoID
+		group by Mesto.MestoID*/
+
+		$data = $conn->prepare("SELECT  Mesto.Opstina, Mesto.Naziv, avg(Funkcija.Prihodi) FROM Poslanik
+		INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
+		inner join Mesto on Mesto.MestoID = Poslanik.MestoID
+		group by Mesto.MestoID");
+
+		$res = $data->execute();
+		$result = $data->fetchAll(PDO::FETCH_ASSOC);
+
+		print_r(json_encode($result));
+
+	 }
+
 	}
 ?>
