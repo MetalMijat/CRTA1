@@ -231,8 +231,8 @@
 			$res = $data->execute();
 			$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
-			//print_r($result);
-			print_r(json_encode($result));
+			print_r($result);
+			//print_r(json_encode($result));
 
 	 }
 	 public static function strukturaPoGodinama() {
