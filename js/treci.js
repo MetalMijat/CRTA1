@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 function treciGraf () {
   
 
@@ -261,7 +261,7 @@ var focus = svg.append("g")
     
   }
 
-=======
+
 function treciGraf(){
 
 var data = 
@@ -439,5 +439,5 @@ legend.append('text')
     .attr('x', legendRectSize + legendSpacing)
     .attr('y', legendRectSize - legendSpacing)
     .text(function (d) { return d; });
->>>>>>> a3b0eedc924d2729d9893b76787852676ad30666
+
 }

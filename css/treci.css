@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 body {
     
 }
@@ -47,7 +47,7 @@ body {
     fill: none;
     stroke: steelblue;
 }
-=======
+
 
 .chart .legend {
   fill: black;
@@ -78,4 +78,3 @@ rect.bar1:hover {
   stroke: #000;
   shape-rendering: crispEdges;
 }
->>>>>>> a3b0eedc924d2729d9893b76787852676ad30666
