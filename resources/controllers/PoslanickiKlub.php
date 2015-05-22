@@ -145,7 +145,9 @@
 			where PoslKlub.Naziv = "Demokratska stranka"
 			;*/
 
-			print_r($klub['klub']);
+			print_r("<pre>");
+			print_r($klub);
+			print_r("</pre>");
 			die();
 
 	 		$data = $conn->prepare(
