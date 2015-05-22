@@ -145,8 +145,11 @@
 			where PoslKlub.Naziv = "Demokratska stranka"
 			;*/
 
+			print_r($klub);
+			die();
+			
 	 		$data = $conn->prepare(
-	 			"SELECT avg(Prihodi) FROM Poslanik
+	 			"SELECT avg(Prihodi) as prihodi FROM Poslanik
 				 INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
 			 inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
 			 where PoslKlub.kratak = ?");
