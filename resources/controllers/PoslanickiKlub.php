@@ -145,17 +145,15 @@
 			where PoslKlub.Naziv = "Demokratska stranka"
 			;*/
 
-			print_r("<pre>");
-			print_r($klub->pass['klub']);
-			print_r("</pre>");
-			die();
-
+			
+			$kratki = ($klub->pass['klub']);
+			
 	 		$data = $conn->prepare(
 	 			"SELECT avg(Prihodi) as prihodi FROM Poslanik
 				 INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
 			 inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
 			 where PoslKlub.kratak = ?");
-	 		$res = $data->execute (array($klub['klub']));
+	 		$res = $data->execute (array($kratki));
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
 	 		print_r(json_encode($result));
