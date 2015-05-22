@@ -146,7 +146,7 @@
 			;*/
 
 			print_r("<pre>");
-			print_r($klub);
+			print_r($klub->pass['klub']);
 			print_r("</pre>");
 			die();
 
