@@ -864,3 +864,25 @@ img::-moz-selection {
 body {
     webkit-tap-highlight-color: #000;
 }
+
+#dugmic {
+    position: relative;
+    margin-top: 90px;
+}
+#formposl {
+  width: 30%;
+  float: left;
+  display: inline-block;
+  position: relative;
+  margin-left: 65%;
+}
+#prviDijagram {
+  width: 65%;
+  margin-right: 20px;
+  position: absolute;
+  padding-right: 15px;
+}
+
+#dugmic1{
+    margin-top: 60px;
+}

@@ -17,6 +17,7 @@
     <!-- Custom CSS -->
     <link href="css/agency.css" rel="stylesheet">
     <link rel="stylesheet" href="css/prvi.css">
+    <link rel="stylesheet" href="css/treci.css">
     <link rel="stylesheet" href="css/sesti.css">
     <link rel="stylesheet" href="css/peti.css">
 
@@ -369,9 +370,9 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
+            <div class="container1">
                 <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
+                    <div class=".col-md-8">
                         <div class="modal-body">
                            
 
@@ -379,15 +380,46 @@
                             <h2>Pojedinačni prihodi poslanika</h2>
                 
                             <div id="prviDijagram"></div>
-                            <form>
+                            <form id ="formposl">
                             <h3>Poslanici</h3>
-                            <select name= "drop_down" id="DropDownSazivi">
+                            <select name= "drop_down" class="DropDownSazivi">
                             </select>
-                            
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br>
+                            <button id="dugmic1" type="button" class="btn btn-primary">Izaberi</button>
+
                             </form>
                             <br>
 
-                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+
+
+                            <button id="dugmic" type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
                         </div>
                     </div>
                 </div>
@@ -435,7 +467,7 @@
                             <!-- Project Details Go Here -->
                             <h2>Prihodi poslanika po poslaničkom klubu</h2>
                             
-
+                            <div id="treciDijagram"></div>
 
                             <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
                         </div>
@@ -540,10 +572,25 @@
     <!-- Custom Theme JavaScript -->
     <script src="js/agency.js"></script>
     
-    <script src="js/prvi.js"></script>  
+    <script src="js/prvi.js"></script> 
+    <script src="js/treci.js"></script>  
     <script src="js/sesti.js"></script> 
     <script src="js/peti.js"></script> 
 
+    <script>
+        $(function () {
+                    $(".portfolio-link").click(function (e) {
+                        var nazivModala = e.currentTarget.hash;
+
+                        ucitajGraf(nazivModala);
+
+                    })
+
+                   function ucitajGraf (naziv) {
+                       if (naziv = "portfolioModal1")  prviGraf();
+                   }
+                });
+    </script>
 
     <script>
         $(function () {
@@ -555,12 +602,12 @@
             })
 
            function ucitajGraf (naziv) {
-               if (naziv = "portfolioModal1")  prviGraf();
+               if (naziv = "portfolioModal3")  treciGraf();
            }
         });
 
         $(document).ready(function()
-    {
+        {
         $.getJSON("novi1.json", function(obj){
 
     for (var i = 0; i < obj.Sazivi.length; i++) {
@@ -569,17 +616,39 @@
         for (var i=0; i<obj.Sazivi.length; i++) {
 
           $.each(obj.Sazivi[i].poslanici, function (key, value) {
-            $("#DropDownSazivi").append($('<option></option>').val(value.ime).html(value.ime));
+            $(".DropDownSazivi").append($('<option></option>').val(value.ime).html(value.ime));
           });
 
-          $('#DropDownSazivi').change(function () {
+          $('.DropDownSazivi').change(function () {
             alert($(this).val());
            });
         }
-    };
+        };
+        });
+        });
 
-    });
-    });
+    //     $(document).ready(function()
+    //     {
+    //     $.getJSON("novi1.json", function(obj){
+
+    // for (var i = 0; i < obj.Sazivi.length; i++) {
+    //   var poslanici = obj.Sazivi[i].poslanici;
+
+    //     for (var i=0; i<obj.Sazivi.length; i++) {
+
+    //       $.each(obj.Sazivi[i].poslanici, function (key, value) {
+    //         $("#DropDownSazivi1").append($('<option></option>').val(value.ime).html(value.ime));
+    //       });
+
+    //       $('#DropDownSazivi1').change(function () {
+    //         alert($(this).val());
+    //        });
+    //     }
+    //     };
+    //     });
+    //     });
+
+
 
     </script>
 
