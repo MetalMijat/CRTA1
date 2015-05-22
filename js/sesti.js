@@ -19,12 +19,12 @@ var yAxis = d3.svg.axis()
     .orient("left");
     //.ticks(10, "%");
 
-var tip = d3.tip()
+/*var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
     return "<span style='color:red'>" + d.broj + "</span>";
-  });
+  });*/
 
 var svg = d3.select("#sestiDijagram").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -32,7 +32,7 @@ var svg = d3.select("#sestiDijagram").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-svg.call(tip);
+// svg.call(tip);
 
 d3.json("poslanici.json",  function(error, data) {
   x.domain(data.map(function(d) { return d.godina; }));
@@ -62,8 +62,8 @@ d3.json("poslanici.json",  function(error, data) {
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d.broj); })
       .attr("height", function(d) { return height - y(d.broj); })
-      .on('mouseover', tip.show)
-      .on('mouseout', tip.hide)
+      // .on('mouseover', tip.show)
+      // .on('mouseout', tip.hide)
 
 });
 
