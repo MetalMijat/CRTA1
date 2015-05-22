@@ -34,7 +34,7 @@ Flight::route('/opstine', array('Poslanik','prihodiPoOpstinama'));
 
 Flight::route('/prihodiPoslKlub', array('PoslanickiKlub','prosecniPrihodiPoVremenu'));
 Flight::route('/poslanikPrimanja', array('Poslanik','ukupnaPrimanjaPoGodini'));
-Flight::route('/poslKlubProsek', array('PoslanickiKlub','prosecniPrihodiUKlubu'));
+Flight::route('/poslKlubProsek', array('PoslanickiKlub','prosecniPrihodiUKlubu'),Flight::request()->query);
 
 
 
