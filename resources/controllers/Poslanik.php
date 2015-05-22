@@ -153,7 +153,7 @@
 			print_r(json_encode($result));
 	    }
 
-	    
+
 	    public static function prihodiPoOpstinama(){
 	 	$conn = Flight::db();
 
@@ -163,7 +163,7 @@
 		group by Mesto.MestoID*/
 
 		$data = $conn->prepare(
-			"SELECT  Mesto.Opstina, Mesto.Naziv, avg(Funkcija.Prihodi) FROM Poslanik"
+			"SELECT  Mesto.Opstina, Mesto.Naziv, avg(Funkcija.Prihodi) as Prihodi FROM Poslanik"
 		." INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID"
 		." inner join Mesto on Mesto.MestoID = Poslanik.MestoID"
 		." group by Mesto.MestoID");
