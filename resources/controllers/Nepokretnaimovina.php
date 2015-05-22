@@ -2,7 +2,8 @@
 class NepokretnaImovina {
 
 	public static function povrsinaStambenihJedinica(){
-
+		print_r("expression");
+		die();
 		$conn = Flight::db();
 
 		/*select Poslanik.Ime, Poslanik.Prezime, sum(Povrsina) from NepokretnaImovina 
