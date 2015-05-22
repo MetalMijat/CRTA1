@@ -13,6 +13,7 @@ fclose($myfile);
 
 Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=crta', 'root', $sifra), function($db) {
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
 });
 
 
