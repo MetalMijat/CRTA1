@@ -18,7 +18,7 @@ var xScale = d3.time.scale()
 var yScale = d3.scale.linear()
     .range([height, 0]);
 
-yScale.domain([0,100]);
+yScale.domain([0,1000]);
 
 var color = d3.scale.ordinal().range(["#48A36D",   "#E2705C", "#E37756", "#E38457", "#EAD67C", "#F2DE8A"]);  
 
@@ -38,7 +38,7 @@ var line = d3.svg.line()
     .y(function(d) { return yScale(d.rating); })
     .defined(function(d) { return d.rating; });  // Hiding line value defaults of 0 for missing data
 
-var maxY = 100; // Defined later to update yAxis
+var maxY = 1000; // Defined later to update yAxis
 
 var svg = d3.select("#petiDijagram").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -99,7 +99,7 @@ function filterPodaci (name,data) {
   });
 
   xScale.domain(d3.extent(data, function(d) { return d.date; })); // extent = highest and lowest points, domain is data, range is bouding box
-  yScale.domain([0, 100
+  yScale.domain([0, 1000
     // d3.max(categories, function(c) { return d3.max(c.values, function(v) { return v.rating; }); })
   ]);
 
@@ -238,10 +238,10 @@ var focus = svg.append("g")
                 i = bisectDate(data, x0, 1),
                 d0 = data[i - 1],
                 d1 = data[i],
-                d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                d = x0 - d0.vreme > d1.vreme - x0 ? d1 : d0;
             focus.attr("transform", "translate(" + /*xScale(d.date)*/x0 + "," + /*yScale(d.povrsina)*/y0 + ")");
             yScale.domain([0,maxY]);
-            
+
             /*console.log(yScale.invert(y0));*/
 
             focus.select("text").text( parseInt( yScale.invert(y0) )  );
