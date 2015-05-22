@@ -27,7 +27,7 @@ Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=crta;
 
 
 Flight::route('/godista', array('PoslanickiKlub','strukturaPoGodinama'));
-Flight::route('/povrsina', array('NepokretnaImovina','povrsinaStambenihJedinica'));
+Flight::route('/povrsina', array('Poslanik','povrsinaStambenihJedinica'));
 Flight::route('/opstine', array('Poslanik','prihodiPoOpstinama'));
 
 
