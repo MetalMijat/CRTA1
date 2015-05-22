@@ -162,9 +162,9 @@
 
 		$data = $conn->prepare(
 			"SELECT  Mesto.Opstina, Mesto.Naziv, avg(Funkcija.Prihodi) FROM Poslanik"
-		."INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID"
-		."inner join Mesto on Mesto.MestoID = Poslanik.MestoID"
-		."group by Mesto.MestoID");
+		." INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID"
+		." inner join Mesto on Mesto.MestoID = Poslanik.MestoID"
+		." group by Mesto.MestoID");
 
 		$res = $data->execute();
 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
