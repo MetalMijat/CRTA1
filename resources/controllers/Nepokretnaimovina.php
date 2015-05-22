@@ -19,6 +19,8 @@ class NepokretnaImovina {
 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
 		print_r(json_encode($result));
+
+		//sjhadkjshd
 	}
 
 
