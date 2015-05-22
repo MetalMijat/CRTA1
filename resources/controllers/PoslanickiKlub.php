@@ -130,7 +130,7 @@
 			INNER JOIN funkcija ON funkcija.poslanikID = poslanik.poslanikID
 			INNER JOIN poslanickiKlub ON poslanik.PoslKlubID = poslanickiKlub.PoslKlubID
 			WHERE poslanickiKlub.Naziv = ?");
-	 		$res = $data->execute (/*array($klub)*/);
+	 		$res = $data->execute (array($klub));
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
 	 		print_r(json_encode($result));
@@ -149,7 +149,7 @@
 					INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
 					INNER JOIN PoslKlub ON Poslanik.PoslKlubID = PoslKlub.PoslKlubID
 					GROUP BY PoslKlub.kratak, Poslanik.pol");
-	 		$res = $data->execute (array($kratki));
+	 		$res = $data->execute (/*array($kratki)*/);
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
 	 		print_r(json_encode($result));
