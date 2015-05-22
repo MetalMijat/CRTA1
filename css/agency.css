@@ -5,12 +5,12 @@
  */
 
 body {
-    overflow-x: hidden;
-    font-family: "Roboto Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
+    overflow-x: hidden !important;
+    font-family: "Roboto Slab","Helvetica Neue",Helvetica,Arial,sans-serif !important;
 }
 
 .text-muted {
-    color: #777;
+    color: #777 ;
 }
 
 .text-primary {
@@ -52,8 +52,8 @@ h4,
 h5,
 h6 {
     text-transform: uppercase;
-    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-weight: 700;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif!important;
+    font-weight: 700!important;
 }
 
 .img-centered {
@@ -69,12 +69,12 @@ h6 {
 }
 
 .btn-primary {
-    border-color: #cf161c;
+    border-color: #cf161c!important;
     text-transform: uppercase;
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-weight: 700;
+    font-weight: 700!important;
     color: #fff;
-    background-color: #cf161c;
+    background-color: #cf161c!important;
 }
 
 .btn-primary:hover,
@@ -118,13 +118,13 @@ fieldset[disabled] .btn-primary.active {
 }
 
 .btn-xl {
-    padding: 20px 40px;
+    padding: 20px 40px !important;
     border-color: #cf161c;
-    border-radius: 3px;
+    border-radius: 3px!important;
     text-transform: uppercase;
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 18px!important;
+    font-weight: 700!important;
     color: #fff;
     background-color: #cf161c;
 }
@@ -209,7 +209,7 @@ fieldset[disabled] .btn-xl.active {
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 400;
     letter-spacing: 1px;
-    color: #fff;
+    color: #fff!important;
 }
 
 .navbar-default .nav li a:hover,
@@ -219,9 +219,9 @@ fieldset[disabled] .btn-xl.active {
 }
 
 .navbar-default .navbar-nav>.active>a {
-    border-radius: 0;
-    color: #fff;
-    background-color: #cf161c;
+    border-radius: 0!important;
+    color: #fff!important;
+    background-color: #cf161c!important;
 }
 
 .navbar-default .navbar-nav>.active>a:hover,
@@ -233,8 +233,8 @@ fieldset[disabled] .btn-xl.active {
 @media(min-width:768px) {
     .navbar-default {
         padding: 25px 0;
-        border: 0;
-        background-color: transparent;
+        border: 0 !important;
+        background-color: transparent!important;
         -webkit-transition: padding .3s;
         -moz-transition: padding .3s;
         transition: padding .3s;
@@ -248,12 +248,12 @@ fieldset[disabled] .btn-xl.active {
     }
 
     .navbar-default .navbar-nav>.active>a {
-        border-radius: 3px;
+        border-radius: 3px !important;
     }
 
     .navbar-default.navbar-shrink {
         padding: 10px 0;
-        background-color: #222;
+        background-color: #222 !important;
     }
 
     .navbar-default.navbar-shrink .navbar-brand {
@@ -342,10 +342,10 @@ section h2.section-heading {
 section h3.section-subheading {
     margin-bottom: 75px;
     text-transform: none;
-    font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif!important;
     font-size: 16px;
     font-style: italic;
-    font-weight: 400;
+    font-weight: 400!important;
     color:#02417d;
 
 
@@ -863,4 +863,12 @@ img::-moz-selection {
 
 body {
     webkit-tap-highlight-color: #000;
+}
+
+polygon:hover{
+    fill:#ba141a;
+}
+#PRIZREN polygon:hover, #PECKI polygon:hover, #KOSOVSKO_POMORAVSKI polygon:hover,
+ #KOSOVSKI polygon:hover, #KOSOVSKA_MITROVICA polygon:hover{
+    fill:rgba(128, 128, 128, 0.45);
 }
