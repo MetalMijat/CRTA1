@@ -152,6 +152,8 @@
 
 			print_r(json_encode($result));
 	    }
+
+	    
 	    public static function prihodiPoOpstinama(){
 	 	$conn = Flight::db();
 

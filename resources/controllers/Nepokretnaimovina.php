@@ -1,5 +1,6 @@
 <?php
 class NepokretnaImovina {
+	
 	public static function povrsinaStambenihJedinica(){
 
 		$conn = Flight::db();
