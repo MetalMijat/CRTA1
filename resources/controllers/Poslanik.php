@@ -150,9 +150,9 @@
 			$res = $data->execute();
 			$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
-			print_r($result);
+			print_r(json_encode($result));
 	    }
-	     public static function prihodiPoOpstinama(){
+	    public static function prihodiPoOpstinama(){
 	 	$conn = Flight::db();
 
 	 	/**SELECT  Mesto.Opstina, Mesto.Naziv, avg(Funkcija.Prihodi) FROM Poslanik
@@ -160,10 +160,11 @@
 		inner join Mesto on Mesto.MestoID = Poslanik.MestoID
 		group by Mesto.MestoID*/
 
-		$data = $conn->prepare("SELECT  Mesto.Opstina, Mesto.Naziv, avg(Funkcija.Prihodi) FROM Poslanik
-		INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
-		inner join Mesto on Mesto.MestoID = Poslanik.MestoID
-		group by Mesto.MestoID");
+		$data = $conn->prepare(
+			"SELECT  Mesto.Opstina, Mesto.Naziv, avg(Funkcija.Prihodi) FROM Poslanik"
+		."INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID"
+		."inner join Mesto on Mesto.MestoID = Poslanik.MestoID"
+		."group by Mesto.MestoID");
 
 		$res = $data->execute();
 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
