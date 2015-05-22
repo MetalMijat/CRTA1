@@ -142,7 +142,7 @@
 			inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
 			where ( Funkcija.VremeOD > (curdate() -  interval 2 YEAR) )
 			group by Poslanik.PoslanikID*/
-			$data = $conn->prepare("SELECT Ime, Prezime, Funkcija.Naziv, Prihodi  FROM Poslanik
+			$data = $conn->prepare("SELECT Ime, Prezime, Funkcija.Naziv, Sum(Prihodi) as prihodi  FROM Poslanik
 			INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
 			inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
 			where ( Funkcija.VremeOD > (curdate() -  interval 2 YEAR) )
