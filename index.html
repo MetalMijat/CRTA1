@@ -18,7 +18,11 @@
     <link href="css/agency.css" rel="stylesheet">
     <link rel="stylesheet" href="css/prvi.css">
     <link rel="stylesheet" href="css/sesti.css">
+
     <link rel="stylesheet" href="css/treci.css">
+
+    <link rel="stylesheet" href="css/peti.css">
+
 
 
     <!-- Custom Fonts -->
@@ -30,10 +34,14 @@
 
     <script src="d3.v3.min.js"></script>
     <script src="d3-tip.js"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+    <script type="text/javascript" src="js/jquery-2.1.4.js"> </script>
+
      
 
 
@@ -176,7 +184,7 @@
                         <img src="img/portfolio/peta.png" class="img-responsive" alt="">
                     </a>
                     <div class="portfolio-caption">
-                        <h4>Nepokretna imovina poslanika - poređenje</h4>
+                        <h4>Površina stambenih jedinica</h4>
                         
                     </div>
                 </div>
@@ -190,7 +198,7 @@
                         <img src="img/portfolio/sesta.png" class="img-responsive" alt="">
                     </a>
                     <div class="portfolio-caption">
-                        <h4>Broj plata poslanika</h4>
+                        <h4>Struktura poslanika u skupštini</h4>
                         
                     </div>
                 </div>
@@ -383,6 +391,13 @@
                             <h2>Pojedinačni prihodi poslanika</h2>
                 
                             <div id="prviDijagram"></div>
+                            <form>
+                            <h3>Poslanici</h3>
+                            <select name= "drop_down" id="DropDownSazivi">
+                            </select>
+                            
+                            </form>
+                            <br>
 
                             <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
                         </div>
@@ -472,6 +487,7 @@
     </div>
 
 
+
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -492,6 +508,9 @@
         </div>
     </div>
     <!-- Nepokretna imovina poslanika - poređenje -->
+
+    <!-- Površina stambenih jedinica -->
+
     <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
@@ -505,7 +524,9 @@
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
                             <!-- Project Details Go Here -->
-                            <h2>Nepokretna imovina poslanika - poređenje</h2>
+                            <h2>Površina stambenih jedinica</h2>
+
+                            <div id="petiDijagram"></div>
                             
                            
                             <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
@@ -530,7 +551,7 @@
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
                             <!-- Project Details Go Here -->
-                            <h2>Broj plata poslanika</h2>
+                            <h2>Struktura poslanika u skupštini</h2>
                             
                             <div id="sestiDijagram"></div>
 
@@ -561,10 +582,15 @@
     <script src="js/agency.js"></script>
     
     <script src="js/prvi.js"></script>  
+
     <script src="js/sesti.js"></script>
     <script src="js/mapa.js"></script>
 
     <script src="js/treci.js"></script>
+
+    <script src="js/sesti.js"></script> 
+    <script src="js/peti.js"></script> 
+
 
 
     <script>
@@ -579,8 +605,45 @@
            function ucitajGraf (naziv) {
                if (naziv = "portfolioModal1")  prviGraf();
            }
-        })
+        });
 
+        $(document).ready(function()
+    {
+        $.getJSON("novi1.json", function(obj){
+
+    for (var i = 0; i < obj.Sazivi.length; i++) {
+      var poslanici = obj.Sazivi[i].poslanici;
+
+        for (var i=0; i<obj.Sazivi.length; i++) {
+
+          $.each(obj.Sazivi[i].poslanici, function (key, value) {
+            $("#DropDownSazivi").append($('<option></option>').val(value.ime).html(value.ime));
+          });
+
+          $('#DropDownSazivi').change(function () {
+            alert($(this).val());
+           });
+        }
+    };
+
+    });
+    });
+
+    </script>
+
+    <script>
+        $(function () {
+                    $(".portfolio-link").click(function (e) {
+                        var nazivModala = e.currentTarget.hash;
+
+                        ucitajGraf(nazivModala);
+
+                    })
+
+                   function ucitajGraf (naziv) {
+                       if (naziv = "portfolioModal5")  petiGraf();
+                   }
+                });
     </script>
 
     <script>
