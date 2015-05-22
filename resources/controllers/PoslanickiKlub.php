@@ -139,20 +139,16 @@
 	  public static function prosecniPrihodiUKlubu($klub){
 	 		$conn = Flight::db();
 	 		 
-   			/*sSELECT avg(Prihodi) FROM Poslanik
-			INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
-			inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
-			where PoslKlub.Naziv = "Demokratska stranka"
-			;*/
-
+   			
 			
-			$kratki = ($klub->pass['klub']);
+			//$kratki = ($klub->pass['klub']);
 			
 	 		$data = $conn->prepare(
-	 			"SELECT avg(Prihodi) as prihodi FROM Poslanik
-				 INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
-			 inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
-			 where PoslKlub.kratak = ?");
+	 			"SELECT Poslanik.pol, PoslKlub.kratak, AVG( Prihodi ) AS prihodi
+					FROM Poslanik
+					INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
+					INNER JOIN PoslKlub ON Poslanik.PoslKlubID = PoslKlub.PoslKlubID
+					GROUP BY PoslKlub.kratak, Poslanik.pol");
 	 		$res = $data->execute (array($kratki));
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
