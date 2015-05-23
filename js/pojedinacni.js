@@ -28,7 +28,7 @@ var yAxis = d3.svg.axis()
 //   });
 
 var grafZaBrisanje = d3.selectAll("#pojedinacniDijagram svg");
-if(grafZaBrisanje.length > 1) grafZaBrisanje.remove();
+if(grafZaBrisanje.length > 1) grafZaBrisanje="";
 
 var svg = d3.select("#pojedinacniDijagram").append("svg")
     .attr("width", width + margin.left + margin.right)
