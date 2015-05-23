@@ -27,6 +27,9 @@ var yAxis = d3.svg.axis()
 //     return "<span style='color:red'>" + d.prihod + "</span>";
 //   });
 
+var grafZaBrisanje = d3.selectAll("#pojedinacniDijagram svg");
+if(grafZaBrisanje.length > 1) grafZaBrisanje.remove();
+
 var svg = d3.select("#pojedinacniDijagram").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -35,9 +38,9 @@ var svg = d3.select("#pojedinacniDijagram").append("svg")
 
 // svg.call(tip);
 
-d3.json("poslanici.json",  function(error, data) {
-  x.domain(data.map(function(d) { return d.poslanik; }));
-  y.domain([0, d3.max(data, function(d) { return d.prihod; })]);
+d3.json("http://imovinanarodnihposlanika.otvoreniparlament.rs/resources/poslanikPrimanja",  function(error, data) {
+  x.domain(data.map(function(d) { return d.Ime; }));
+  y.domain([0, d3.max(data, function(d) { return d.prihodi; })]);
 
   svg.append("g")
       .attr("class", "x axis")
@@ -59,17 +62,17 @@ d3.json("poslanici.json",  function(error, data) {
       .data(data)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.poslanik); })
+      .attr("x", function(d) { return x(d.Ime); })
       .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(d.prihod); })
-      .attr("height", function(d) { return height - y(d.prihod); })
+      .attr("y", function(d) { return y(d.prihodi); })
+      .attr("height", function(d) { return height - y(d.prihodi); })
       // .on('mouseover', tip.show)
       // .on('mouseout', tip.hide)
 
 });
 
 function type(d) {
-  d.prihod = +d.prihod;
+  d.prihodi = +d.prihodi;
   return d;
 }
 }

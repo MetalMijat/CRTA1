@@ -26,6 +26,9 @@ var yAxis = d3.svg.axis()
     return "<span style='color:red'>" + d.broj + "</span>";
   });*/
 
+var postoji = d3.select("#sestiDijagram svg");
+if(postoji.length > 0) postoji.remove();
+
 var svg = d3.select("#sestiDijagram").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -34,8 +37,8 @@ var svg = d3.select("#sestiDijagram").append("svg")
 
 // svg.call(tip);
 
-d3.json("godina.json",  function(error, data) {
-  x.domain(data.map(function(d) { return d.godina; }));
+d3.json("http://imovinanarodnihposlanika.otvoreniparlament.rs/resources/godista",  function(error, data) {
+  x.domain(data.map(function(d) { return d.godiste; }));
   y.domain([0, d3.max(data, function(d) { return d.broj; })]);
 
   svg.append("g")
@@ -58,7 +61,7 @@ d3.json("godina.json",  function(error, data) {
       .data(data)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.godina); })
+      .attr("x", function(d) { return x(d.godiste); })
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d.broj); })
       .attr("height", function(d) { return height - y(d.broj); })
