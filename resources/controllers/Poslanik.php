@@ -160,15 +160,15 @@
 	 	/*SELECT  Ime, Prezime, Mesto.Opstina, Mesto.Naziv, round(avg(Funkcija.Prihodi),2) as Mesecno FROM Poslanik
 		INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
 		inner join Mesto on Mesto.MestoID = Poslanik.MestoID
-		where  Funkcija.VremeOD > (curdate() -  interval 2 YEAR) and Funkcija.IntervalF like "Mese%no"
-		group by Mesto.MestoID*/
+		where  Funkcija.VremeOD > (curdate() -  interval 2 YEAR) and Funkcija.IntervalF like 'Mese%no'
+		group by Ime, Prezime*/
 
 		$data = $conn->prepare(
 		"SELECT  Ime, Prezime, Mesto.Opstina, Mesto.Naziv, round(avg(Funkcija.Prihodi),2) as Mesecno FROM Poslanik
 		INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
 		inner join Mesto on Mesto.MestoID = Poslanik.MestoID
 		where  Funkcija.VremeOD > (curdate() -  interval 2 YEAR) and Funkcija.IntervalF like 'Mese%no'
-		group by Mesto.MestoID");
+		group by Ime, Prezime");
 
 		$res = $data->execute();
 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
