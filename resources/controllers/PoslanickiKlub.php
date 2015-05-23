@@ -144,11 +144,12 @@
 			//$kratki = ($klub->pass['klub']);
 			
 	 		$data = $conn->prepare(
-	 			"SELECT Poslanik.pol, PoslKlub.kratak, AVG( Prihodi ) AS prihodi
-					FROM Poslanik
-					INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
-					INNER JOIN PoslKlub ON Poslanik.PoslKlubID = PoslKlub.PoslKlubID
-					GROUP BY PoslKlub.kratak, Poslanik.pol");
+	 		"SELECT Poslanik.pol, PoslKlub.kratak, Round(AVG( Prihodi ), 2) AS prihodi
+			FROM Poslanik
+			INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
+			INNER JOIN PoslKlub ON Poslanik.PoslKlubID = PoslKlub.PoslKlubID
+			where ( Funkcija.VremeOD > (curdate() -  interval 2 YEAR) )
+			GROUP BY PoslKlub.kratak, Poslanik.pol");
 	 		$res = $data->execute (/*array($kratki)*/);
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
@@ -215,20 +216,20 @@
 	 public static function prosecniPrihodiPoVremenu(){
 	 		$conn = Flight::db();
 
-	 		/*SELECT PoslKlub.kratak, AVG( Prihodi )AS prihodi, year( Funkcija.VremeOD ) as godina
+	 		/*SELECT PoslKlub.kratak, ROUND(AVG( Prihodi ), 2)AS prihodi, year( Funkcija.VremeOD ) as godina
 			FROM Poslanik
 			INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
 			INNER JOIN PoslKlub ON Poslanik.PoslKlubID = PoslKlub.PoslKlubID
-			where ( Funkcija.VremeOD > (curdate() -  interval 5 YEAR) )
+			where  Funkcija.VremeOD > (curdate() -  interval 5 YEAR) and Funkcija.IntervalF like 'Mese%no'
 			GROUP BY PoslKlub.kratak, year(Funkcija.VremeOD)*/
 
 			$data = $conn->prepare(
-				"SELECT PoslKlub.kratak, AVG( Prihodi )AS prihodi, year( Funkcija.VremeOD ) as godina
-				FROM Poslanik
-				INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
-				INNER JOIN PoslKlub ON Poslanik.PoslKlubID = PoslKlub.PoslKlubID
-				where ( Funkcija.VremeOD > (curdate() -  interval 5 YEAR) )
-				GROUP BY PoslKlub.kratak, year(Funkcija.VremeOD)");
+			"SELECT PoslKlub.kratak, ROUND(AVG( Prihodi ), 2)AS prihodi, year( Funkcija.VremeOD ) as godina
+			FROM Poslanik
+			INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
+			INNER JOIN PoslKlub ON Poslanik.PoslKlubID = PoslKlub.PoslKlubID
+			where  Funkcija.VremeOD > (curdate() -  interval 5 YEAR) and Funkcija.IntervalF like 'Mese%no'
+			GROUP BY PoslKlub.kratak, year(Funkcija.VremeOD)");
 			$res = $data->execute();
 			$result = $data->fetchAll(PDO::FETCH_ASSOC);
 

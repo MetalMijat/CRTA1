@@ -142,7 +142,7 @@
 			inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
 			where ( Funkcija.VremeOD > (curdate() -  interval 2 YEAR) )
 			group by Poslanik.PoslanikID*/
-			$data = $conn->prepare("SELECT Ime, Prezime, Funkcija.Naziv, Sum(Prihodi) as prihodi  FROM Poslanik
+			$data = $conn->prepare("SELECT Ime, Prezime, Funkcija.Naziv, Prihodi  FROM Poslanik
 			INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
 			inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
 			where ( Funkcija.VremeOD > (curdate() -  interval 2 YEAR) )
@@ -157,16 +157,18 @@
 	    public static function prihodiPoOpstinama(){
 	 	$conn = Flight::db();
 
-	 	/**SELECT  Mesto.Opstina, Mesto.Naziv, avg(Funkcija.Prihodi) FROM Poslanik
+	 	/*SELECT  Ime, Prezime, Mesto.Opstina, Mesto.Naziv, round(avg(Funkcija.Prihodi),2) as Mesecno FROM Poslanik
 		INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
 		inner join Mesto on Mesto.MestoID = Poslanik.MestoID
+		where  Funkcija.VremeOD > (curdate() -  interval 2 YEAR) and Funkcija.IntervalF like "Mese%no"
 		group by Mesto.MestoID*/
 
 		$data = $conn->prepare(
-			"SELECT  Mesto.Opstina, Mesto.Naziv, avg(Funkcija.Prihodi) as Prihodi FROM Poslanik"
-		." INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID"
-		." inner join Mesto on Mesto.MestoID = Poslanik.MestoID"
-		." group by Mesto.MestoID");
+		"SELECT  Ime, Prezime, Mesto.Opstina, Mesto.Naziv, round(avg(Funkcija.Prihodi),2) as Mesecno FROM Poslanik
+		INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
+		inner join Mesto on Mesto.MestoID = Poslanik.MestoID
+		where  Funkcija.VremeOD > (curdate() -  interval 2 YEAR) and Funkcija.IntervalF like 'Mese%no'
+		group by Mesto.MestoID");
 
 		$res = $data->execute();
 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
@@ -179,16 +181,16 @@
 	 public static function povrsinaStambenihJedinica(){
 		$conn = Flight::db();
 
-		/*select Poslanik.Ime, Poslanik.Prezime, sum(Povrsina) from NepokretnaImovina 
+		/*select Poslanik.Ime, Poslanik.Prezime, round(sum(Povrsina),0) from NepokretnaImovina 
 		INNER JOIN Poslanik ON Poslanik.PoslanikID = NepokretnaImovina.PoslanikID
-		where (NepokretnaImovina.Tip  like "ku%a") or (NepokretnaImovina.Tip like "stan") 
-		GROUP BY Poslanik.PoslanikID*/
+		where (NepokretnaImovina.Tip  like 'ku%a') or (NepokretnaImovina.Tip like 'stan') 
+		group BY Poslanik.PoslanikID*/
 
 		$data = $conn->prepare(
-			"SELECT Poslanik.Ime, Poslanik.Prezime, sum(Povrsina) as povrsina FROM NepokretnaImovina 
-		 INNER JOIN Poslanik ON Poslanik.PoslanikID = NepokretnaImovina.PoslanikID
-		 WHERE (NepokretnaImovina.Tip  like 'ku%a') OR (NepokretnaImovina.Tip like 'stan') 
-		 GROUP BY Poslanik.PoslanikID ");
+			"SELECT Poslanik.Ime, Poslanik.Prezime, round(sum(Povrsina),0) from NepokretnaImovina 
+			INNER JOIN Poslanik ON Poslanik.PoslanikID = NepokretnaImovina.PoslanikID
+			where (NepokretnaImovina.Tip  like 'ku%a') or (NepokretnaImovina.Tip like 'stan') 
+			group BY Poslanik.PoslanikID");
 		$res = $data->execute();
 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
