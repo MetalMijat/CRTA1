@@ -6582,3 +6582,10 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+
+.container1 {
+  padding-right: 15px;
+padding-left: 15px;
+margin-right: auto;
+margin-left: 5px;
+}

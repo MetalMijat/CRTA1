@@ -34,7 +34,7 @@ var svg = d3.select("#sestiDijagram").append("svg")
 
 // svg.call(tip);
 
-d3.json("poslanici.json",  function(error, data) {
+d3.json("godina.json",  function(error, data) {
   x.domain(data.map(function(d) { return d.godina; }));
   y.domain([0, d3.max(data, function(d) { return d.broj; })]);
 

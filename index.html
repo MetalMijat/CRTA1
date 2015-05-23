@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="css/sesti.css">
 
     <link rel="stylesheet" href="css/treci.css">
-
+    <link rel="stylesheet" href="css/pojedinacni.css">
     <link rel="stylesheet" href="css/peti.css">
 
 
@@ -33,7 +33,7 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
     <script src="d3.v3.min.js"></script>
-    <script src="d3-tip.js"></script>
+    
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css">
@@ -127,7 +127,7 @@
                         <img src="img/portfolio/prva.png" class="img-responsive" alt="">
                     </a>
                     <div class="portfolio-caption">
-                        <h4>Pojedinačni prihodi poslanika</h4>
+                        <h4>Prihodi poslanika po poslaničkom klubu</h4>
                         
                     </div>
                 </div>
@@ -155,7 +155,7 @@
                         <img src="img/portfolio/treca.png" class="img-responsive" alt="">
                     </a>
                     <div class="portfolio-caption">
-                        <h4>Prihodi poslanika po poslaničkom klubu</h4>
+                        <h4>Pojedinačni prihodi poslanika</h4>
                         
                     </div>
                 </div>
@@ -388,7 +388,7 @@
                            
 
                            <!-- Project Details Go Here -->
-                            <h2>Pojedinačni prihodi poslanika</h2>
+                            <h2>Prihodi poslanika po poslaničkom klubu </h2>
                 
                             <div id="prviDijagram"></div>
                             <form>
@@ -443,16 +443,53 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
+            <div class="container1">
                 <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
+                    <div class=".col-md-8">
                         <div class="modal-body">
                             <!-- Project Details Go Here -->
-                            <h2>Prihodi poslanika po poslaničkom klubu</h2>
+                            <h2>Pojedinačni prihodi poslanika</h2>
                             
+                            <div id="pojedinacniDijagram"></div>
 
+                            <form id ="formposl">
+                            <h3>Poslanici</h3>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br><br>
+                            <select name= "drop_down" class="DropDownSazivi">
+                            </select>
+                            <br>
+                            <button id="dugmic1" type="button" class="btn btn-primary">Izaberi</button>
 
-                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                            </form>
+                            <br>
+
+                            <button id="dugmic" type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
                         </div>
                     </div>
                 </div>
@@ -587,7 +624,7 @@
     <script src="js/mapa.js"></script>
 
     <script src="js/treci.js"></script>
-
+    <script src="js/pojedinacni.js"></script>
     <script src="js/sesti.js"></script> 
     <script src="js/peti.js"></script> 
 
@@ -607,27 +644,6 @@
            }
         });
 
-        $(document).ready(function()
-    {
-        $.getJSON("novi1.json", function(obj){
-
-    for (var i = 0; i < obj.Sazivi.length; i++) {
-      var poslanici = obj.Sazivi[i].poslanici;
-
-        for (var i=0; i<obj.Sazivi.length; i++) {
-
-          $.each(obj.Sazivi[i].poslanici, function (key, value) {
-            $("#DropDownSazivi").append($('<option></option>').val(value.ime).html(value.ime));
-          });
-
-          $('#DropDownSazivi').change(function () {
-            alert($(this).val());
-           });
-        }
-    };
-
-    });
-    });
 
     </script>
 
@@ -694,6 +710,44 @@
                if (naziv = "portfolioModal3")  treciGraf();
            }
         })
+
+    </script>
+
+    <script>
+        $(function () {
+            $(".portfolio-link").click(function (e) {
+                var nazivModala = e.currentTarget.hash;
+
+                ucitajGraf(nazivModala);
+
+            })
+
+           function ucitajGraf (naziv) {
+               if (naziv = "portfolioModal3")  pojedinacniGraf();
+           }
+        })
+
+        $(document).ready(function()
+        {
+            $.getJSON("novi1.json", function(obj){
+
+                for (var i = 0; i < obj.Sazivi.length; i++) {
+                    var poslanici = obj.Sazivi[i].poslanici;
+
+                     /*for (var i=0; i<obj.Sazivi.length; i++) {*/
+
+                        $.each(poslanici, function (key, value) {
+                        $(".DropDownSazivi").append($('<option></option>').val(value.ime).html(value.ime));
+                        });
+
+                        /*$('.DropDownSazivi').change(function () {
+                        alert($(this).val());
+                        });*/
+                    /*}*/
+                };
+
+            });
+        });
 
     </script>
 

@@ -872,3 +872,25 @@ polygon:hover{
  #KOSOVSKI polygon:hover, #KOSOVSKA_MITROVICA polygon:hover{
     fill:rgba(128, 128, 128, 0.45);
 }
+
+#dugmic {
+    position: relative;
+    margin-top: 90px;
+}
+#formposl {
+  width: 30%;
+  float: left;
+  display: inline-block;
+  position: relative;
+  margin-left: 65%;
+}
+#pojedinacniDijagram {
+  width: 65%;
+  margin-right: 20px;
+  position: absolute;
+  padding-right: 15px;
+}
+
+#dugmic1{
+    margin-top: 60px;
+}
