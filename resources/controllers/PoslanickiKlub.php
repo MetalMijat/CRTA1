@@ -215,18 +215,20 @@
 	 public static function prosecniPrihodiPoVremenu(){
 	 		$conn = Flight::db();
 
-	 		/*SELECT PoslKlub.Naziv, avg(Prihodi) FROM Poslanik
+	 		/*SELECT PoslKlub.kratak, AVG( Prihodi )AS prihodi, year( Funkcija.VremeOD ) as godina
+			FROM Poslanik
 			INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
-			inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
-			where ( Funkcija.VremeOD > (curdate() -  interval 2 YEAR) )
-			group by PoslKlub.PoslKlubID*/
+			INNER JOIN PoslKlub ON Poslanik.PoslKlubID = PoslKlub.PoslKlubID
+			where ( Funkcija.VremeOD > (curdate() -  interval 5 YEAR) )
+			GROUP BY PoslKlub.kratak, year(Funkcija.VremeOD)*/
 
 			$data = $conn->prepare(
-				"SELECT PoslKlub.Naziv, avg(Prihodi) as prihod FROM Poslanik
-			 INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
-			 inner join PoslKlub on Poslanik.PoslKlubID = PoslKlub.PoslKlubID
-			 where ( Funkcija.VremeOD > (curdate() -  interval 2 YEAR) )
-			 group by PoslKlub.PoslKlubID");
+				"SELECT PoslKlub.kratak, AVG( Prihodi )AS prihodi, year( Funkcija.VremeOD ) as godina
+				FROM Poslanik
+				INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
+				INNER JOIN PoslKlub ON Poslanik.PoslKlubID = PoslKlub.PoslKlubID
+				where ( Funkcija.VremeOD > (curdate() -  interval 5 YEAR) )
+				GROUP BY PoslKlub.kratak, year(Funkcija.VremeOD)");
 			$res = $data->execute();
 			$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
