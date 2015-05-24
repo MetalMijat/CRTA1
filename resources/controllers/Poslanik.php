@@ -7,7 +7,7 @@
 	    public static function sviPoslanici($param)
 	    {
 	    	$conn = Flight::db();
-        	$data = $conn->prepare("SELECT * FROM `Poslanik` as p inner join PoslanickiKlub as pk on p.poslKlubId = pk.poslKlubId  ");
+        	$data = $conn->prepare("SELECT * FROM `Poslanik` as p inner join PoslKlub as pk on p.poslKlubId = pk.poslKlubId  ");
         	$data->execute();
         	$result = $data->fetchAll(PDO::FETCH_ASSOC);
 		 				
@@ -201,20 +201,20 @@
 	public static function izlistajPolove(){
         $db = Flight::db();
         $a=0;
-        foreach($db->query('SELECT * FROM stranka') as $row) {
+        foreach($db->query('SELECT * FROM PoslKlub') as $row) {
             $a++;
         	$nazivstranke = $row['Naziv'];
-        	$id_stranke=$row['StrankaID'];
+        	$id_stranke=$row['PoslKlubID'];
         	$polz = 1;
         	$polm = 0;
-        	$stmt = $db->prepare("SELECT * FROM poslanik WHERE StrankaID=:stranka_id AND Pol=:pol");
-        	$stmt->bindValue(':stranka_id', $id_stranke, PDO::PARAM_INT);
+        	$stmt = $db->prepare("SELECT * FROM Poslanik WHERE PoslKlubID=:poslklub_id AND Pol=:pol");
+        	$stmt->bindValue(':poslklub_id', $id_stranke, PDO::PARAM_INT);
         	$stmt->bindValue(':pol', $polz, PDO::PARAM_INT);
         	$stmt->execute();
         	$row_countz = $stmt->rowCount();
         	$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        	$stmt1 = $db->prepare("SELECT * FROM poslanik WHERE StrankaID=:stranka_id AND Pol=:pol");
-        	$stmt1->bindValue(':stranka_id', $id_stranke, PDO::PARAM_INT);
+        	$stmt1 = $db->prepare("SELECT * FROM Poslanik WHERE PoslKlubID=:poslklub_id AND Pol=:pol");
+        	$stmt1->bindValue(':poslklub_id', $id_stranke, PDO::PARAM_INT);
         	$stmt1->bindValue(':pol', $polm, PDO::PARAM_INT);
         	$stmt1->execute();
         	$row_countm = $stmt1->rowCount();
@@ -231,7 +231,7 @@
             $arraypolm,$arraypolz
         );
         $array[/*$a*/] = array(
-    "Stranka" => $nazivstranke,
+    "PoslKlub" => $nazivstranke,
     "brojpol" => $arraypol,
 		);
 
