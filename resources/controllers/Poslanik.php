@@ -281,9 +281,7 @@ order by Poslanik.PoslanikID";
       public static function prihodiPoKvartalu()
       {
       	$conn = Flight::db();
-      	$data = $conn->prepare("select (year(VremeOD)-2008)*4+quarter(VremeOD) as Kvartal, Funkcija.Prihodi , Poslanik.PoslanikID from Funkcija
-inner join Poslanik On Poslanik.PoslanikID = Funkcija.PoslanikID
-order by Poslanik.PoslanikID");
+      	$data = $conn->prepare(Poslanik::stringZaPrihode());
       	$res = $data->execute();
       	$result = $data(PDO::FETCH_ASSOC);
 
