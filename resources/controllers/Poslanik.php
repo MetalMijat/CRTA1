@@ -258,8 +258,9 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
 }*/
 	public static function stringZaKvartal($param)
 	{
-		return "select (year({$param})-2008)*4+quarter({$param}) as Kvartal, Poslanik.PoslanikID from PromenaOpozicije
+		return "select (year($param)-2008)*4+quarter($param) as Kvartal, Poslanik.PoslanikID from PromenaOpozicije
 inner join Poslanik On Poslanik.PoslanikID = PromenaOpozicije.PoslanikID
+where year($param) > 2007
 order by Poslanik.PoslanikID";
 	}
 
@@ -272,11 +273,12 @@ order by Poslanik.PoslanikID";
       	print_r(json_encode($result));
 
       }
-      public static function stringZaPrihode(/*$param*/)
+      public static function stringZaPrihode($param)
       {
-      	return "select (year(VremeOD)-2008)*4+quarter(VremeOD) as Kvartal, Funkcija.Prihodi , Poslanik.PoslanikID from Funkcija
-inner join Poslanik On Poslanik.PoslanikID = Funkcija.PoslanikID
-order by Poslanik.PoslanikID";
+      	return "select CONCAT(Poslanik.Ime, " ", Poslanik.Prezime) as Poslanik, (year({$param})-2008)*4+quarter($param) as Kvartal, Funkcija.Prihodi , Poslanik.PoslanikID from Funkcija
+		inner join Poslanik On Poslanik.PoslanikID = Funkcija.PoslanikID
+		where year($param) > 2007
+		order by Poslanik.PoslanikID";
       }
       public static function prihodiPoKvartalu()
       {
