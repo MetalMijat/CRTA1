@@ -244,5 +244,50 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
 		$jsonencode = json_encode($array, true);
         echo $jsonencode;
       }
+     /* function brKvartala (arg) {
+	
+	var parts = arg.split('.');
+	var mesec = parseInt(parts[1],10);
+	var kvartalUGodini = 	Math.floor(	(mesec	-	1)	/	3	)	+	1  ; 
+
+	//referenta je 2008-a
+	var brKvartala = (parts[2] - 2008) * 4 + kvartalUGodini ; 
+
+	return brKvartala;
+
+}*/
+	public static function stringZaKvartal($param)
+	{
+		return "select (year({$param})-2008)*4+quarter({$param}) as Kvartal, Poslanik.PoslanikID from PromenaOpozicije
+inner join Poslanik On Poslanik.PoslanikID = PromenaOpozicije.PoslanikID
+order by Poslanik.PoslanikID";
+	}
+
+      public static function kvartalniIzvestaj(){
+      	$conn = Flight::db();
+      	$data = $conn->prepare(Poslanik::stringZaKvartal());
+      	$res = $data->execute();
+      	$result = $data(PDO::FETCH_ASSOC);
+
+      	print_r(json_encode($result));
+
+      }
+      public static function stringZaPrihode(/*$param*/)
+      {
+      	return "select (year(VremeOD)-2008)*4+quarter(VremeOD) as Kvartal, Funkcija.Prihodi , Poslanik.PoslanikID from Funkcija
+inner join Poslanik On Poslanik.PoslanikID = Funkcija.PoslanikID
+order by Poslanik.PoslanikID";
+      }
+      public static function prihodiPoKvartalu()
+      {
+      	$conn = Flight::db();
+      	$data = $conn->prepare(Poslanik::stringZaPrihode());
+      	$res = $data->execute();
+      	$result = $data(PDO::FETCH_ASSOC);
+
+      	print_r(json_encode($result));
+      }
+
+
 	}
 ?>
