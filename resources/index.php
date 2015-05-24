@@ -11,7 +11,7 @@ $myfile = fopen("sifra.txt", "r") or die("Unable to open file!");
 $sifra = fgets($myfile).'';
 fclose($myfile);
 
-Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=crta;charset=utf8', 'root', $sifra), function($db) {
+Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=crta;charset=utf8', 'root', ''), function($db) {
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
 });
@@ -29,7 +29,7 @@ Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=crta;
 Flight::route('/godista', array('PoslanickiKlub','strukturaPoGodinama'));
 Flight::route('/povrsina', array('Poslanik','povrsinaStambenihJedinica'));
 Flight::route('/opstine', array('Poslanik','prihodiPoOpstinama'));
-
+Flight::route('/polovi', array('Poslanik','izlistajPolove'));
 
 
 Flight::route('/prihodiPoslKlub', array('PoslanickiKlub','prosecniPrihodiPoVremenu'));
