@@ -259,9 +259,9 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
 	public static function stringZaKvartal($param)
 	{
 		return "select (year($param)-2008)*4+quarter($param) as Kvartal, Poslanik.PoslanikID from PromenaOpozicije
-inner join Poslanik On Poslanik.PoslanikID = PromenaOpozicije.PoslanikID
-where year($param) > 2007
-order by Poslanik.PoslanikID";
+		inner join Poslanik On Poslanik.PoslanikID = PromenaOpozicije.PoslanikID
+		where year($param) > 2007
+		order by Poslanik.PoslanikID";
 	}
 
       public static function kvartalniIzvestaj(){
@@ -275,7 +275,7 @@ order by Poslanik.PoslanikID";
       }
       public static function stringZaPrihode($param)
       {
-      	return "select CONCAT(Poslanik.Ime, " ", Poslanik.Prezime) as Poslanik, (year({$param})-2008)*4+quarter($param) as Kvartal, Funkcija.Prihodi , Poslanik.PoslanikID from Funkcija
+      	return "select CONCAT(Poslanik.Ime, ' ', Poslanik.Prezime) as Poslanik, (year({$param})-2008)*4+quarter($param) as Kvartal, Funkcija.Prihodi , Poslanik.PoslanikID from Funkcija
 		inner join Poslanik On Poslanik.PoslanikID = Funkcija.PoslanikID
 		where year($param) > 2007
 		order by Poslanik.PoslanikID";
@@ -284,6 +284,23 @@ order by Poslanik.PoslanikID";
       {
       	$conn = Flight::db();
       	$data = $conn->prepare(Poslanik::stringZaPrihode());
+      	$res = $data->execute();
+      	$result = $data(PDO::FETCH_ASSOC);
+
+      	print_r(json_encode($result));
+      }
+      public static function stringZaNepokretnu($param)
+      {
+      	return "SELECT concat(Poslanik.Ime,' ', Poslanik.Prezime) as Poslanik, (year(PromenaNepokretneImovine.{$param})-2008)*4+quarter(PromenaNepokretneImovine.{$param}) as Kvartal, Tip, Povrsina, jedinicaMerePovrsine from NepokretnaImovina 
+		INNER JOIN Poslanik on NepokretnaImovina.PoslanikID = Poslanik.PoslanikID
+		INNER JOIN PromenaNepokretneImovine on PromenaNepokretneImovine.PromenaNIID = NepokretnaImovina.PromenaNIID
+		WHERE year(PromenaNepokretneImovine.{$param}) > 2007
+		ORDER BY Poslanik.PoslanikID";
+      }
+      public static function nepokretnaImovinaPoKvartalima()
+      {
+      	$conn = Flight::PDO;
+      	$data = $conn->prepare(Poslanik::stringZaNepokretnu());
       	$res = $data->execute();
       	$result = $data(PDO::FETCH_ASSOC);
 
