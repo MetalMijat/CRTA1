@@ -231,8 +231,8 @@
             $arraypolm,$arraypolz
         );
         $array[/*$a*/] = array(
-    "PoslKlub" => $nazivstranke,
-    "brojpol" => $arraypol,
+    		"PoslKlub" => $nazivstranke,
+    		"brojpol" => $arraypol,
 		);
 
 
@@ -244,29 +244,21 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
 		$jsonencode = json_encode($array, true);
         echo $jsonencode;
       }
-     /* function brKvartala (arg) {
-	
-	var parts = arg.split('.');
-	var mesec = parseInt(parts[1],10);
-	var kvartalUGodini = 	Math.floor(	(mesec	-	1)	/	3	)	+	1  ; 
-
-	//referenta je 2008-a
-	var brKvartala = (parts[2] - 2008) * 4 + kvartalUGodini ; 
-
-	return brKvartala;
-
-}*/
-	public static function stringZaKvartal($param)
+    
+	/*public static function stringZaKvartal($param)
 	{
 		return "select (year($param)-2008)*4+quarter($param) as Kvartal, Poslanik.PoslanikID from PromenaOpozicije
 		inner join Poslanik On Poslanik.PoslanikID = PromenaOpozicije.PoslanikID
 		where year($param) > 2007
 		order by Poslanik.PoslanikID";
-	}
+	}*/
 
       public static function kvartalniIzvestaj(){
       	$conn = Flight::db();
-      	$data = $conn->prepare(Poslanik::stringZaKvartal());
+      	$data = $conn->prepare("SELECT concat(Poslanik.Ime,' ', Poslanik.Prezime) AS Poslanik, (year(DatumOD)-2008)*4+quarter(DatumOD) AS Kvartal, Poslanik.PoslanikID FROM PromenaOpozicije
+								INNER JOIN Poslanik ON Poslanik.PoslanikID = PromenaOpozicije.PoslanikID
+								WHERE year(DatumOD) > 2007
+								ORDER BY Poslanik.PoslanikID");
       	$res = $data->execute();
       	$result = $data(PDO::FETCH_ASSOC);
 
@@ -276,9 +268,9 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
       public static function stringZaPrihode($param)
       {
       	return "select CONCAT(Poslanik.Ime, ' ', Poslanik.Prezime) as Poslanik, (year({$param})-2008)*4+quarter($param) as Kvartal, Funkcija.Prihodi , Poslanik.PoslanikID from Funkcija
-		inner join Poslanik On Poslanik.PoslanikID = Funkcija.PoslanikID
-		where year($param) > 2007
-		order by Poslanik.PoslanikID";
+				inner join Poslanik On Poslanik.PoslanikID = Funkcija.PoslanikID
+				where year($param) > 2007
+				order by Poslanik.PoslanikID";
       }
       public static function prihodiPoKvartalu()
       {

@@ -30,12 +30,13 @@ Flight::route('/godista', array('PoslanickiKlub','strukturaPoGodinama'));
 Flight::route('/povrsina', array('Poslanik','povrsinaStambenihJedinica'));
 Flight::route('/opstine', array('Poslanik','prihodiPoOpstinama'));
 Flight::route('/polovi', array('Poslanik','izlistajPolove'));
-Flight::route('/kvartal', array('Poslanik','prihodiPoKvartalu'));
+Flight::route('/kvartal', array('Poslanik','kvartalniIzvestaj'));
 
 
 Flight::route('/prihodiPoslKlub', array('PoslanickiKlub','prosecniPrihodiPoVremenu'));
 Flight::route('/poslanikPrimanja', array('Poslanik','ukupnaPrimanjaPoGodini'));
 Flight::route('/poslKlubProsek', array('PoslanickiKlub','prosecniPrihodiUKlubu'),Flight::request()->query);
+
 
 
 
