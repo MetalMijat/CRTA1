@@ -85,10 +85,6 @@
 	 public static function poslaniciZenskogPola($klub){
 	 		$conn = Flight::db();
 	 		 
-   			/*select * from poslanik 
-			inner join poslanickiKlub on poslanik.poslKlubID = poslanickiKlub.poslKlubID
-			WHERE poslanik.pol = 1 and poslanickiKlub.naziv = "SNS";*/
-
 	 		$data = $conn->prepare("SELECT * FROM poslanik 
 			INNER JOIN poslanickiKlub ON poslanik.poslKlubID = poslanickiKlub.poslKlubID
 			WHERE poslanik.pol = 2 AND poslanickiKlub.naziv = ?;");
@@ -101,11 +97,6 @@
 	 public static function funkcijeUKlubu($klub){
 	 		$conn = Flight::db();
 	 		 
-   			/*select * from poslanik
-			inner join funkcija on funkcija.poslanikID = poslanik.poslanikID
-			inner join poslanickiKlub on poslanik.PoslKlubID = poslanickiKlub.PoslKlubID
-			where poslanickiKlub.Naziv = 'SNS'
-			;*/
 
 	 		$data = $conn->prepare("SELECT * FROM poslanik
 			INNER JOIN funkcija ON funkcija.poslanikID = poslanik.poslanikID
@@ -120,11 +111,6 @@
 	  public static function brojFunkcijaUKlubu($klub){
 	 		$conn = Flight::db();
 	 		 
-   			/*select * from poslanik
-			inner join funkcija on funkcija.poslanikID = poslanik.poslanikID
-			inner join poslanickiKlub on poslanik.PoslKlubID = poslanickiKlub.PoslKlubID
-			where poslanickiKlub.Naziv = 'SNS'
-			;*/
 
 	 		$data = $conn->prepare("SELECT COUNT(*) FROM poslanik
 			INNER JOIN funkcija ON funkcija.poslanikID = poslanik.poslanikID
@@ -159,12 +145,6 @@
 	  public static function ukupniPrihodiUKlubu($klub){
 	 		$conn = Flight::db();
 	 		 
-   			/*select sum(prihodi) from poslanik
-			inner join funkcija on funkcija.poslanikID = poslanik.poslanikID
-			inner join poslanickiKlub on poslanik.PoslKlubID = poslanickiKlub.PoslKlubID
-			where poslanickiKlub.Naziv = 'SNS'
-			;*/
-
 	 		$data = $conn->prepare("SELECT sum(prihodi) FROM poslanik
 			INNER JOIN funkcija ON funkcija.poslanikID = poslanik.poslanikID
 			INNER JOIN poslanickiKlub ON poslanik.PoslKlubID = poslanickiKlub.PoslKlubID
@@ -177,12 +157,6 @@
 	 }
 	 public static function prosecniPrihodiUKlubuPoPolu($klub, $pol){
 	 		$conn = Flight::db();
-	 		 
-   			/*select avg(prihodi) from poslanik
-			inner join funkcija on funkcija.poslanikID = poslanik.poslanikID
-			inner join poslanickiKlub on poslanik.PoslKlubID = poslanickiKlub.PoslKlubID
-			where poslanickiKlub.Naziv = 'SNS' and pol = 1
-			;*/
 
 	 		$data = $conn->prepare("SELECT avg(prihodi) FROM poslanik
 			INNER JOIN funkcija ON funkcija.poslanikID = poslanik.poslanikID
@@ -196,12 +170,6 @@
 	 }
 	 public static function ukupniPrihodiUKlubuPoPolu($klub, $pol){
 	 		$conn = Flight::db();
-	 		 
-   			/*select sum(prihodi) from poslanik
-			inner join funkcija on funkcija.poslanikID = poslanik.poslanikID
-			inner join poslanickiKlub on poslanik.PoslKlubID = poslanickiKlub.PoslKlubID
-			where poslanickiKlub.Naziv = 'SNS' and pol = 1
-			;*/
 
 	 		$data = $conn->prepare("SELECT sum(prihodi) FROM poslanik
 			INNER JOIN funkcija ON funkcija.poslanikID = poslanik.poslanikID
@@ -215,13 +183,6 @@
 
 	 public static function prosecniPrihodiPoVremenu(){
 	 		$conn = Flight::db();
-
-	 		/*SELECT PoslKlub.kratak, ROUND(AVG( Prihodi ), 2)AS prihodi, year( Funkcija.VremeOD ) as godina
-			FROM Poslanik
-			INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
-			INNER JOIN PoslKlub ON Poslanik.PoslKlubID = PoslKlub.PoslKlubID
-			where  Funkcija.VremeOD > (curdate() -  interval 5 YEAR) and Funkcija.IntervalF like 'Mese%no'
-			GROUP BY PoslKlub.kratak, year(Funkcija.VremeOD)*/
 
 			$data = $conn->prepare(
 			"SELECT PoslKlub.kratak, ROUND(AVG( Prihodi ), 2)AS prihodi, year( Funkcija.VremeOD ) as godina
@@ -239,8 +200,6 @@
 	 }
 	 public static function strukturaPoGodinama() {
 	 		$conn = Flight::db();
-
-	 		/*SELECT godiste, count(*) as broj FROM `Poslanik` group by godiste*/
 
 	 		$data = $conn->prepare("SELECT godiste, count(*) as broj FROM `Poslanik` group by godiste");
 	 		$res = $data->execute();

@@ -265,38 +265,32 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
       	print_r(json_encode($result));
 
       }
-      public static function stringZaPrihode($param)
-      {
-      	return "select CONCAT(Poslanik.Ime, ' ', Poslanik.Prezime) as Poslanik, (year({$param})-2008)*4+quarter($param) as Kvartal, Funkcija.Prihodi , Poslanik.PoslanikID from Funkcija
-				inner join Poslanik On Poslanik.PoslanikID = Funkcija.PoslanikID
-				where year($param) > 2007
-				order by Poslanik.PoslanikID";
-      }
       public static function prihodiPoKvartalu()
       {
       	$conn = Flight::db();
-      	$data = $conn->prepare(Poslanik::stringZaPrihode());
+      	$data = $conn->prepare("SELECT CONCAT(Poslanik.Ime, ' ', Poslanik.Prezime) AS Poslanik, (year(MIN(VremeOd))-2008)*4+quarter(MIN(VremeOd)) AS PrviKvartal, (year(MAX(VremeOd))-2008)*4+quarter(MAX(VremeOd)) AS PoslednjiKvartal,Funkcija.Naziv, Funkcija.Prihodi , Poslanik.PoslanikID FROM Funkcija
+		INNER JOIN Poslanik ON Poslanik.PoslanikID = Funkcija.PoslanikID
+		WHERE year(VremeOd) > 2007
+		GROUP BY Funkcija.Prihodi
+		ORDER BY Poslanik.PoslanikID");
       	$res = $data->execute();
-      	$result = $data(PDO::FETCH_ASSOC);
+      	$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
       	print_r(json_encode($result));
-      }
-      public static function stringZaNepokretnu($param)
-      {
-      	return "SELECT concat(Poslanik.Ime,' ', Poslanik.Prezime) as Poslanik, (year(PromenaNepokretneImovine.{$param})-2008)*4+quarter(PromenaNepokretneImovine.{$param}) as Kvartal, Tip, Povrsina, jedinicaMerePovrsine from NepokretnaImovina 
-		INNER JOIN Poslanik on NepokretnaImovina.PoslanikID = Poslanik.PoslanikID
-		INNER JOIN PromenaNepokretneImovine on PromenaNepokretneImovine.PromenaNIID = NepokretnaImovina.PromenaNIID
-		WHERE year(PromenaNepokretneImovine.{$param}) > 2007
-		ORDER BY Poslanik.PoslanikID";
       }
       public static function nepokretnaImovinaPoKvartalima()
       {
-      	$conn = Flight::PDO;
-      	$data = $conn->prepare(Poslanik::stringZaNepokretnu());
+      	$conn = Flight::db();
+      	$data = $conn->prepare("SELECT concat(Poslanik.Ime,' ', Poslanik.Prezime) as Poslanik, (year(MIN(PromenaNepokretneImovine.DatumOd))-2008)*4+quarter(MIN(PromenaNepokretneImovine.DatumOd)) as PrviKvartal,(year(MAX(PromenaNepokretneImovine.DatumOd))-2008)*4+quarter(MAX(PromenaNepokretneImovine.DatumOd)) as PoslednjiKvartal, Tip, Povrsina, jedinicaMerePovrsine FROM NepokretnaImovina 
+		INNER JOIN Poslanik on NepokretnaImovina.PoslanikID = Poslanik.PoslanikID
+		INNER JOIN PromenaNepokretneImovine on PromenaNepokretneImovine.NekretninaID = NepokretnaImovina.NepokretnaImovinaID
+		WHERE year(PromenaNepokretneImovine.DatumOd) > 2007
+		GROUP BY PromenaNepokretneImovine.NekretninaID
+		ORDER BY Poslanik.PoslanikID");
       	$res = $data->execute();
-      	$result = $data(PDO::FETCH_ASSOC);
+		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
-      	print_r(json_encode($result));
+		print_r(json_encode($result));
       }
 
 
