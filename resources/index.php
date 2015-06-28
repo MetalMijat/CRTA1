@@ -33,7 +33,7 @@ Flight::route('/opstine', array('Poslanik','prihodiPoOpstinama'));
 Flight::route('/polovi', array('Poslanik','izlistajPolove'));
 Flight::route('/kvartal', array('Poslanik','kvartalniIzvestaj'));
 Flight::route('/nekretnine', array('Poslanik','nepokretnaImovinaPoKvartalima'));
-Flight::route('/prihodi' , array('Poslanik','prihodiPoKvartalu'));
+Flight::route('/prihodi' , array('Poslanik','prihodiPoKvartalima'));
 
 Flight::route('/prihodiPoslKlub', array('PoslanickiKlub','prosecniPrihodiPoVremenu'));
 Flight::route('/poslanikPrimanja', array('Poslanik','ukupnaPrimanjaPoGodini'));

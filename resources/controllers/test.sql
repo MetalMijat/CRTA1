@@ -44,3 +44,17 @@ Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=crta;
 $myfile = fopen("sifra.txt", "r") or die("Unable to open file!");
 $sifra = fgets($myfile).'';
 fclose($myfile);*/
+
+CREATE TABLE IF NOT EXISTS GrupisanePlate(
+	GrupisanePlateID INT(20),
+	PoslanikID INT(20),
+	Prihod FLOAT(15),
+	Kvartal INT(10),
+	PRIMARY KEY(GrupisanePlateID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP PROCEDURE IF EXISTS crta_insert_grupisaneplate;
+CREATE PROCEDURE crta_insert_grupisaneplate
+(IN grupisaneplateID INT(20), IN poslanikID INT(20), IN prihod FLOAT(15),IN kvartal INT(10))
+INSERT INTO GrupisanePlate(GrupisanePlateID, PoslanikID, Prihod, Kvartal) 
+VALUES(grupisaneplateID, poslanikID, prihod, kvartal);

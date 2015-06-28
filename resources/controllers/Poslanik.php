@@ -265,7 +265,7 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
       	print_r(json_encode($result));
 
       }
-      public static function prihodiPoKvartalu()
+      /*public static function prihodiPoKvartalu()
       {
       	$conn = Flight::db();
       	$data = $conn->prepare("SELECT CONCAT(Poslanik.Ime, ' ', Poslanik.Prezime) AS Poslanik, (year(MIN(VremeOd))-2008)*4+quarter(MIN(VremeOd)) AS PrviKvartal, (year(MAX(VremeOd))-2008)*4+quarter(MAX(VremeOd)) AS PoslednjiKvartal,Funkcija.Naziv, Funkcija.Prihodi , Poslanik.PoslanikID FROM Funkcija
@@ -277,7 +277,7 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
       	$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
       	print_r(json_encode($result));
-      }
+      }*/
       public static function nepokretnaImovinaPoKvartalima()
       {
       	$conn = Flight::db();
@@ -292,7 +292,16 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
 
 		print_r(json_encode($result));
       }
+      public static function prihodiPoKvartalima()
+      {
+      	$conn = Flight::db();
+      	$data = $conn->prepare("SELECT PoslanikID, SUM(`Prihod`), Kvartal FROM `GrupisanePlate` 
+GROUP BY PoslanikID, Kvartal");
+      	$res = $data->execute();
+		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
+		print_r(json_encode($result));
+      }
 
 	}
 ?>
