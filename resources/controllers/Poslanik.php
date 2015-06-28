@@ -295,7 +295,7 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
       public static function prihodiPoKvartalima()
       {
       	$conn = Flight::db();
-      	$data = $conn->prepare("SELECT PoslanikID, SUM(`Prihod`), Kvartal FROM `GrupisanePlate` 
+      	$data = $conn->prepare("SELECT PoslanikID, SUM(`Prihod`) AS UkupnaPlata, Kvartal FROM `GrupisanePlate` 
 GROUP BY PoslanikID, Kvartal");
       	$res = $data->execute();
 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
