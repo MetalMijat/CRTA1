@@ -7,9 +7,9 @@ Flight::set('flight.log_errors', true);
 Flight::path(dirname(__FILE__) . '/controllers');
 Flight::set('flight.views.path', 'public');
 
-$myfile = fopen("sifra.txt", "r") or die("Unable to open file!");
+/*$myfile = fopen("sifra.txt", "r") or die("Unable to open file!");
 $sifra = fgets($myfile).'';
-fclose($myfile);
+fclose($myfile);*/
 
 Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=crta;charset=utf8', 'root', ''), function($db) {
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
