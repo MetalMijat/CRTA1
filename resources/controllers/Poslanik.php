@@ -301,12 +301,39 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
       	$res = $data->execute();
 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
-		print_r(json_encode($result));
+
+		$noviRez = array( );//inicijalizacija
+
+		$kljucevi =  array( ); // podaci dobijeni od upita
+
+		for ($kljucevi = 0, $lon = count($kljucevi); $kljucevi < $lon ; $kljucevi++) { 
+			
+			$tempArrayGrup = array();
+
+			//array_map(callback, arr1); // niz iznosa i kvartala za taj id
+			//filtriraj - daj sve podatke za taj kljuc
+			// spakujes samo kvartale i iznose
+
+			$tempPoslanik = array('id' => "id", 'prihodi' => $tempArrayGrup  );	
+			$noviRez[] = $tempPoslanik;
+		}
+		/*\
+			- jedinstveni niz id-eva
+			- filter podataka po poslaniku (id-u)
+			- pregrupisanje podataka, prilikom grupisanja izbaciti pojedine parametre
+			- 
+		*/
+
+		
+		print_r("<pre>");
+		print_r($result);
+		print_r("</pre>");
+		//print_r(json_encode($result));
       }
-      /*   public static function prihodiPoTestu()
+         public static function prihodiPoTestu()
       {
       	$conn = Flight::db();
-      	$id = $_GET['PoslanikID']
+      	$id = $_GET['PoslanikID'];
       	$data = $conn->prepare("SELECT Poslanik.Ime, Poslanik.Prezime, Poslanik.Pol, SUM(`Prihod`) AS UkupnaPlata, Kvartal FROM `GrupisanePlate` 
 		INNER JOIN Poslanik ON GrupisanePlate.PoslanikID = Poslanik.PoslanikID
 		WHERE PoslanikID = $id
@@ -315,7 +342,7 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
 		print_r(json_encode($result));
-      } */
+      } 
 
 
 	}

@@ -11,7 +11,7 @@ Flight::set('flight.views.path', 'public');
 $sifra = fgets($myfile).'';
 fclose($myfile);*/
 
-Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=crta;charset=utf8', 'root', ''), function($db) {
+Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=crta;charset=utf8', 'dule', 'dule'), function($db) {
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
 });
@@ -34,6 +34,8 @@ Flight::route('/polovi', array('Poslanik','izlistajPolove'));
 Flight::route('/kvartal', array('Poslanik','kvartalniIzvestaj'));
 Flight::route('/nekretnine', array('Poslanik','nepokretnaImovinaPoKvartalima'));
 Flight::route('/prihodi' , array('Poslanik','prihodiPoKvartalima'));
+Flight::route('/test' , array('Poslanik','prihodiPoTestu'));
+
 
 
 Flight::route('/prihodiPoslKlub', array('PoslanickiKlub','prosecniPrihodiPoVremenu'));
