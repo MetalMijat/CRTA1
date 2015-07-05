@@ -303,7 +303,7 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
 
 		print_r(json_encode($result));
       }
-         public static function prihodiPoTestu()
+      /*   public static function prihodiPoTestu()
       {
       	$conn = Flight::db();
       	$id = $_GET['PoslanikID']
@@ -315,7 +315,7 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
 		print_r(json_encode($result));
-      }
+      } */
 
 
 	}
