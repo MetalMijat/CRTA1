@@ -303,6 +303,20 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
 
 		print_r(json_encode($result));
       }
+         public static function prihodiPoTestu()
+      {
+      	$conn = Flight::db();
+      	$id = $_GET['PoslanikID']
+      	$data = $conn->prepare("SELECT Poslanik.Ime, Poslanik.Prezime, Poslanik.Pol, SUM(`Prihod`) AS UkupnaPlata, Kvartal FROM `GrupisanePlate` 
+		INNER JOIN Poslanik ON GrupisanePlate.PoslanikID = Poslanik.PoslanikID
+		WHERE PoslanikID = $id
+		GROUP BY GrupisanePlate.PoslanikID, Kvartal");
+      	$res = $data->execute();
+		$result = $data->fetchAll(PDO::FETCH_ASSOC);
+
+		print_r(json_encode($result));
+      }
+
 
 	}
 ?>

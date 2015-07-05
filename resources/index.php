@@ -34,6 +34,7 @@ Flight::route('/polovi', array('Poslanik','izlistajPolove'));
 Flight::route('/kvartal', array('Poslanik','kvartalniIzvestaj'));
 Flight::route('/nekretnine', array('Poslanik','nepokretnaImovinaPoKvartalima'));
 Flight::route('/prihodi' , array('Poslanik','prihodiPoKvartalima'));
+Flight::route('/test' , array('Poslanik','prihodiPTestu'));
 
 Flight::route('/prihodiPoslKlub', array('PoslanickiKlub','prosecniPrihodiPoVremenu'));
 Flight::route('/poslanikPrimanja', array('Poslanik','ukupnaPrimanjaPoGodini'));
