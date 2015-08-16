@@ -130,12 +130,12 @@
 			//$kratki = ($klub->pass['klub']);
 			
 	 		$data = $conn->prepare(
-	 		"SELECT Poslanik.pol, PoslKlub.kratak, Round(AVG( Prihodi ), 2) AS prihodi
+	 		"SELECT Poslanik.pol, PoslanickiKlub.kratak, Round(AVG( Prihodi ), 2) AS prihodi
 			FROM Poslanik
 			INNER JOIN Funkcija ON Funkcija.PoslanikID = Poslanik.PoslanikID
-			INNER JOIN PoslKlub ON Poslanik.PoslKlubID = PoslKlub.PoslKlubID
+			INNER JOIN PoslanickiKlub ON Poslanik.PoslKlubID = PoslanickiKlub.PoslKlubID
 			where ( Funkcija.VremeOD > (curdate() -  interval 2 YEAR) )
-			GROUP BY PoslKlub.kratak, Poslanik.pol");
+			GROUP BY PoslanickiKlub.kratak, Poslanik.pol");
 	 		$res = $data->execute (/*array($kratki)*/);
 	 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 

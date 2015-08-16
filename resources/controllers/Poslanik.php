@@ -65,10 +65,10 @@
         
 	    }
 	    public static function brojPoslanikaPoPolu($pol){
-	    	$conn = Flight::db();
+	    	$conn = Flight::db();	    				
 
 	    	/*select * from poslanik where pol = 2*/
-	    	$data = $conn->prepare("SELECT * FROM poslanik WHERE pol = ?");
+	    	$data = $conn->prepare("SELECT * FROM Poslanik WHERE pol = ?");
 	    	$res = $data->execute(array($pol));
 	    	$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
@@ -292,45 +292,275 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
 
 		print_r(json_encode($result));
       }
-      public static function prihodiPoKvartalima()
-      {
+
+
+     /*izuzetno "skupa" funkcija - filtriranje i mapiranje, najbolje je da se generise fajl povremeno, pa da se samo on cita */
+	private static function sredjivanje($result='')
+		{ 
+		$noviRez = array( );//inicijalizacija
+
+		$kljucevi = range(0,248); //mali hack -treba upit sa identifikatorima posalnika
+
+
+		for ($brojac = 1, $lon = count($kljucevi); $brojac < $lon ; $brojac++) { 
+			
+			$tempArrayGrup = array_filter( $result, function ($el) use (&$brojac)
+						{													
+						return  intval($el['id'])  == $brojac; //$brojac;
+						} );
+
+						
+			if (count($tempArrayGrup) < 1 ) continue;
+			$tempArrayGrup = array_values($tempArrayGrup);
+			$podaci = $tempArrayGrup[0];
+
+			$tempArrayGrup = array_map(function ($el='')
+			{
+				return array("UkupnaPlata"=>$el['UkupnaPlata'], "Kvartal"=>$el["Kvartal"]);
+			}, $tempArrayGrup);
+								
+						
+			$tempPoslanik = array( "ime"=> $podaci['ime'], "prezime"=>$podaci['prezime'],"pol"=>$podaci['pol']  ,'plate' => $tempArrayGrup);	
+			$noviRez[] = $tempPoslanik;
+		}
+		return $noviRez;
+
+		}
+
+
+
+
+    public static function prihodiPoKvartalima()
+      { 
       	$conn = Flight::db();
-      	$data = $conn->prepare("SELECT Poslanik.Ime, Poslanik.Prezime, Poslanik.Pol, SUM(`Prihod`) AS UkupnaPlata, Kvartal FROM `GrupisanePlate` 
+      	$data = $conn->prepare("SELECT Poslanik.Ime as ime, Poslanik.Prezime as prezime, Poslanik.Pol as pol, Poslanik.PoslanikID as id, SUM(`Prihod`) AS UkupnaPlata, Kvartal FROM `GrupisanePlate` 
 		INNER JOIN Poslanik ON GrupisanePlate.PoslanikID = Poslanik.PoslanikID
 		GROUP BY GrupisanePlate.PoslanikID, Kvartal");
       	$res = $data->execute();
 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
-
-		$noviRez = array( );//inicijalizacija
-
-		$kljucevi =  array( ); // podaci dobijeni od upita
-
-		for ($kljucevi = 0, $lon = count($kljucevi); $kljucevi < $lon ; $kljucevi++) { 
-			
-			$tempArrayGrup = array();
-
-			//array_map(callback, arr1); // niz iznosa i kvartala za taj id
-			//filtriraj - daj sve podatke za taj kljuc
-			// spakujes samo kvartale i iznose
-
-			$tempPoslanik = array('id' => "id", 'prihodi' => $tempArrayGrup  );	
-			$noviRez[] = $tempPoslanik;
-		}
-		/*\
-			- jedinstveni niz id-eva
-			- filter podataka po poslaniku (id-u)
-			- pregrupisanje podataka, prilikom grupisanja izbaciti pojedine parametre
-			- 
-		*/
-
+		$noviRez = self::sredjivanje($result);
 		
-		print_r("<pre>");
-		print_r($result);
-		print_r("</pre>");
-		//print_r(json_encode($result));
+
+		print_r(json_encode($noviRez));
       }
-         public static function prihodiPoTestu()
+
+   	public static function prosekPoKvartalima()
+      { 
+      	$conn = Flight::db();
+      	$data = $conn->prepare("
+      		select avg (UkupnaPlata) as UkupnaPlata, Kvartal from 
+(SELECT Poslanik.Ime as ime, Poslanik.Prezime as prezime, Poslanik.Pol as pol, Poslanik.PoslanikID as id, SUM(`Prihod`) AS UkupnaPlata, Kvartal FROM `GrupisanePlate` 
+		INNER JOIN Poslanik ON GrupisanePlate.PoslanikID = Poslanik.PoslanikID
+		GROUP BY GrupisanePlate.PoslanikID, Kvartal
+                ) as grupisano
+                
+  GROUP BY grupisano.Kvartal 
+
+      		");
+      	$res = $data->execute();
+		$result = $data->fetchAll(PDO::FETCH_ASSOC);
+
+		$noviRez = array("ime" => "Prosek","plate" =>$result);
+		
+
+		print_r(json_encode($noviRez ));
+      } 
+
+     public static function prosekPoPolu()
+      { 
+      	$conn = Flight::db();
+      	$data = $conn->prepare("
+      		select avg (UkupnaPlata) as UkupnaPlata, Kvartal, pol from 
+(SELECT Poslanik.Ime as ime, Poslanik.Prezime as prezime, Poslanik.Pol as pol, Poslanik.PoslanikID as id, SUM(`Prihod`) AS UkupnaPlata, Kvartal FROM `GrupisanePlate` 
+		INNER JOIN Poslanik ON GrupisanePlate.PoslanikID = Poslanik.PoslanikID
+		GROUP BY GrupisanePlate.PoslanikID, Kvartal
+                ) as grupisano
+                
+  GROUP BY grupisano.Kvartal , grupisano.pol
+
+      		");
+      	$res = $data->execute();
+		$result = $data->fetchAll(PDO::FETCH_ASSOC);
+
+		$muskarci = array_filter($result, function ($unos='')
+		{
+			return intval($unos['pol'])  == 1;
+		});
+
+		$zene = array_filter($result, function ($unos='')
+		{
+			return intval($unos['pol'])  == 2;
+		});
+
+		$noviRez[] = array("ime" => "Polovi" , "prezime" => "muskarci","plate" => array_values($muskarci));
+		$noviRez[] = array("ime" => "Polovi" , "prezime" => "zene","plate" =>  array_values($zene) );
+		
+
+		print_r(json_encode($noviRez ));
+      } 
+
+
+      public static function prosekPoOpoziciji()
+      { 
+      	$conn = Flight::db();
+      	$data = $conn->prepare("
+      		SELECT AVG( UkupnaPlata ) AS UkupnaPlata, Kvartal,  `OpozicijaID` as opo
+FROM (
+
+SELECT Poslanik.Ime AS ime, Poslanik.Prezime AS prezime, Poslanik.Pol AS pol, Poslanik.PoslanikID AS id, Poslanik.OpozicijaID, SUM(  `Prihod` ) AS UkupnaPlata, Kvartal
+FROM  `GrupisanePlate` 
+INNER JOIN Poslanik ON GrupisanePlate.PoslanikID = Poslanik.PoslanikID
+GROUP BY GrupisanePlate.PoslanikID, Kvartal
+) AS grupisano
+GROUP BY grupisano.Kvartal, grupisano.OpozicijaID
+
+      		");
+      	$res = $data->execute();
+		$result = $data->fetchAll(PDO::FETCH_ASSOC);
+
+		$vlast = array_filter($result, function ($unos='')
+		{
+			return intval($unos['opo'])  == 1;
+		});
+
+		$opozicija = array_filter($result, function ($unos='')
+		{
+			return intval($unos['opo'])  == 2;
+		});
+
+		$noviRez[] = array("ime" => "Opozicija" , "prezime" => "Vlast","plate" => array_values($vlast));
+		$noviRez[] = array("ime" => "Opozicija" , "prezime" => "Opozicija","plate" =>  array_values($opozicija) );
+		
+
+		print_r(json_encode($noviRez ));
+      } 
+
+      
+private static function razvrstajKlubove($sqlNiz)
+{
+
+	$noviRez = array( );//inicijalizacija
+
+	$kljucevi = range(0,15); //mali hack -treba upit sa identifikatorima posanickih grupa
+
+
+	for ($brojac = 0, $lon = count($kljucevi); $brojac < $lon ; $brojac++) { 
+		
+		$tempArrayGrup = array_filter( $sqlNiz, function ($el) use (&$brojac)
+					{													
+					return  intval($el['klubId'])  == $brojac; //$brojac;
+					} );
+
+					
+		if (count($tempArrayGrup) < 1 ) continue;
+		$tempArrayGrup = array_values($tempArrayGrup);
+		$podaci = $tempArrayGrup[0];
+
+		$tempArrayGrup = array_map(function ($el='')
+		{
+			return array("UkupnaPlata"=>$el['UkupnaPlata'], "Kvartal"=>$el["Kvartal"]);
+		}, $tempArrayGrup);
+							
+					
+		$tempPoslanik = array( "ime"=> "Klub", "prezime"=>$podaci['naziv'],"klubId"=>$podaci['klubId']  ,'plate' => $tempArrayGrup);	
+		$noviRez[] = $tempPoslanik;
+	}
+	return $noviRez;
+
+	
+}
+
+ public static function prosekPoKlubovima()
+      { 
+      	$conn = Flight::db();
+      	$data = $conn->prepare("
+      		SELECT AVG( UkupnaPlata ) AS UkupnaPlata, Kvartal,  kratak AS naziv, klubId 
+FROM (
+
+SELECT Poslanik.Ime AS ime, Poslanik.Prezime AS prezime, Poslanik.Pol AS pol, Poslanik.PoslanikID AS id, Poslanik.OpozicijaID, Poslanik.`PoslKlubID` as klubId , SUM( `Prihod` ) AS UkupnaPlata, Kvartal
+FROM  `GrupisanePlate` 
+INNER JOIN Poslanik ON GrupisanePlate.PoslanikID = Poslanik.PoslanikID
+GROUP BY GrupisanePlate.PoslanikID, Kvartal
+) AS grupisano
+INNER JOIN PoslanickiKlub ON PoslanickiKlub.PoslKlubID = grupisano.klubId
+GROUP BY grupisano.Kvartal, grupisano.klubId
+
+      		");
+      	$res = $data->execute();
+		$result = $data->fetchAll(PDO::FETCH_ASSOC);
+
+		$noviRez = self::razvrstajKlubove($result)	;	
+		
+
+		print_r(json_encode($noviRez ));
+      } 
+
+
+private static function razvrstajGodista($sqlNiz='')
+{
+	$noviRez = array( );//inicijalizacija
+
+	$kljucevi = range(0,12); //mali hack -treba upit sa brojem opsega
+
+
+	for ($brojac = 0, $lon = count($kljucevi); $brojac < $lon ; $brojac++) { 
+		
+		$tempArrayGrup = array_filter( $sqlNiz, function ($el) use (&$brojac)
+					{													
+					return  intval($el['idGodista'])  == $brojac; //$brojac;
+					} );
+
+					
+		if (count($tempArrayGrup) < 1 ) continue;
+		$tempArrayGrup = array_values($tempArrayGrup);
+		$podaci = $tempArrayGrup[0];
+
+		$tempArrayGrup = array_map(function ($el='')
+		{
+			return array("UkupnaPlata"=>$el['UkupnaPlata'], "Kvartal"=>$el["Kvartal"]);
+		}, $tempArrayGrup);
+							
+					
+		$tempPoslanik = array("idGodista"=>$podaci['idGodista'], "opseg"=> $podaci['opseg'], /*"broj"=> $podaci['vrsnjaci'],*/'plate' => $tempArrayGrup);	
+		$noviRez[] = $tempPoslanik;
+	}
+	return $noviRez;
+}
+
+ public static function prosekPoGodinama()
+      { 
+      	$conn = Flight::db();
+      	// count(*) as vrsnjaci
+      	$data = $conn->prepare("
+      		SELECT AVG( UkupnaPlata ) AS UkupnaPlata, Kvartal,  concat( (god*10) ,'-',(god*10+9)) as opseg, god as idGodista
+FROM (
+
+SELECT Poslanik.PoslanikID AS id, Poslanik.OpozicijaID,  floor( (Poslanik.`Godiste`-1900)/10) as god, SUM(  `Prihod` ) AS UkupnaPlata, Kvartal
+FROM  `GrupisanePlate` 
+
+INNER JOIN Poslanik ON GrupisanePlate.PoslanikID = Poslanik.PoslanikID
+GROUP BY GrupisanePlate.PoslanikID, Kvartal, godiste
+) AS grupisano
+
+GROUP BY grupisano.Kvartal, god
+
+
+      		");
+      	$res = $data->execute();
+		$result = $data->fetchAll(PDO::FETCH_ASSOC);
+
+		$noviRez = self::razvrstajGodista($result)	;	
+		
+
+		print_r(json_encode($noviRez ));
+      } 
+
+
+
+
+
+      public static function prihodiPoTestu()
       {
       	$conn = Flight::db();
       	$id = $_GET['PoslanikID'];

@@ -11,7 +11,7 @@ Flight::set('flight.views.path', 'public');
 $sifra = fgets($myfile).'';
 fclose($myfile);*/
 
-Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=crta;charset=utf8', 'dule', 'dule'), function($db) {
+Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=crta;charset=utf8', 'root', ''), function($db) {
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
 });
@@ -26,11 +26,27 @@ Flight::register('db', 'PDO', array('mysql:host=localhost;port=3306;dbname=crta;
 
 
 
+//ovo koristim za odredjivanje ekstrema , najbolje : sirotinja<|prosek -30%|< normalni < |prosek +30%|< bogatasi
+Flight::route('/prosek', array('Poslanik','prosekPoKvartalima')); // generalni prosek, uvek prisutan
+Flight::route('/prosekPol', array('Poslanik','prosekPoPolu')); //prosek po polu
+Flight::route('/prosekOpozicija', array('Poslanik','prosekPoOpoziciji'));//opozicija
+Flight::route('/prosekGodiste', array('Poslanik','prosekPoGodinama'));//godiste 
+Flight::route('/prosekKlub', array('Poslanik','prosekPoKlubovima'));//poslanicki klub
+
+//
+
+Flight::route('/polovi/@pol', function($pol){
+	 Poslanik::brojPoslanikaPoPolu($pol);
+});
+
+
+
 
 Flight::route('/godista', array('PoslanickiKlub','strukturaPoGodinama'));
 Flight::route('/povrsina', array('Poslanik','povrsinaStambenihJedinica'));
 Flight::route('/opstine', array('Poslanik','prihodiPoOpstinama'));
-Flight::route('/polovi', array('Poslanik','izlistajPolove'));
+//Flight::route('/polovi', array('Poslanik','izlistajPolove'));
+
 Flight::route('/kvartal', array('Poslanik','kvartalniIzvestaj'));
 Flight::route('/nekretnine', array('Poslanik','nepokretnaImovinaPoKvartalima'));
 Flight::route('/prihodi' , array('Poslanik','prihodiPoKvartalima'));
@@ -91,7 +107,11 @@ Flight::route('/', function(){
 });
 
 Flight::route('/req', function(){
-    var_dump(Flight::request());
+				print_r('<pre>');
+	var_dump(Flight::request());
+				print_r('</pre>');
+				die();
+    
 });
 
 
