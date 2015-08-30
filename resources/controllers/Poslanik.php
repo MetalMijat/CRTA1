@@ -320,7 +320,8 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
 			}, $tempArrayGrup);
 								
 						
-			$tempPoslanik = array( "ime"=> $podaci['ime'], "prezime"=>$podaci['prezime'],"pol"=>$podaci['pol']  ,'plate' => $tempArrayGrup);	
+			$tempPoslanik = array( "ime"=> $podaci['ime'], "prezime"=>$podaci['prezime'],"pol"=>$podaci['pol'], 
+				"stranka"=>$podaci['stranka'], "godiste"=>$podaci['godiste'], "opozicija"=>$podaci['opozicija'],  'plate' => $tempArrayGrup);	
 			$noviRez[] = $tempPoslanik;
 		}
 		return $noviRez;
@@ -333,8 +334,9 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
     public static function prihodiPoKvartalima()
       { 
       	$conn = Flight::db();
-      	$data = $conn->prepare("SELECT Poslanik.Ime as ime, Poslanik.Prezime as prezime, Poslanik.Pol as pol, Poslanik.PoslanikID as id, SUM(`Prihod`) AS UkupnaPlata, Kvartal FROM `GrupisanePlate` 
-		INNER JOIN Poslanik ON GrupisanePlate.PoslanikID = Poslanik.PoslanikID
+      	$data = $conn->prepare("SELECT Poslanik.PoslanikID as id, Poslanik.Ime as ime, Poslanik.Prezime as prezime, Poslanik.Pol as pol, Poslanik.godiste as godiste, Poslanik.OpozicijaID as opozicija, PoslanickiKlub.kratak as stranka,   SUM(`Prihod`) AS UkupnaPlata, Kvartal FROM `GrupisanePlate` 
+		INNER JOIN Poslanik ON GrupisanePlate.PoslanikID = Poslanik.PoslanikID         
+                 INNER JOIN PoslanickiKlub ON Poslanik.PoslKlubID = PoslanickiKlub.PoslKlubID       
 		GROUP BY GrupisanePlate.PoslanikID, Kvartal");
       	$res = $data->execute();
 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
