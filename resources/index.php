@@ -32,6 +32,7 @@ Flight::route('/prosekPol', array('Poslanik','prosekPoPolu')); //prosek po polu
 Flight::route('/prosekOpozicija', array('Poslanik','prosekPoOpoziciji'));//opozicija
 Flight::route('/prosekGodiste', array('Poslanik','prosekPoGodinama'));//godiste 
 Flight::route('/prosekKlub', array('Poslanik','prosekPoKlubovima'));//poslanicki klub
+Flight::route('/prosekProfesije', array('Poslanik','prosekPoProfesijama'));//poslanicki klub
 
 //
 

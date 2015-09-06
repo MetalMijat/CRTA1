@@ -320,7 +320,7 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
 			}, $tempArrayGrup);
 								
 						
-			$tempPoslanik = array( "ime"=> $podaci['ime'], "prezime"=>$podaci['prezime'],"pol"=>$podaci['pol'], 
+			$tempPoslanik = array( "ime"=> $podaci['ime'], "prezime"=>$podaci['prezime'],"pol"=>$podaci['pol'], "profesija"=>$podaci['profesija'], 
 				"stranka"=>$podaci['stranka'], "godiste"=>$podaci['godiste'], "opozicija"=>$podaci['opozicija'],  'plate' => $tempArrayGrup);	
 			$noviRez[] = $tempPoslanik;
 		}
@@ -334,10 +334,12 @@ U suštini za svaku stranku selekttovati poslanike,pol gdje je vrijednost m i iz
     public static function prihodiPoKvartalima()
       { 
       	$conn = Flight::db();
-      	$data = $conn->prepare("SELECT Poslanik.PoslanikID as id, Poslanik.Ime as ime, Poslanik.Prezime as prezime, Poslanik.Pol as pol, Poslanik.godiste as godiste, Poslanik.OpozicijaID as opozicija, PoslanickiKlub.kratak as stranka,   SUM(`Prihod`) AS UkupnaPlata, Kvartal FROM `GrupisanePlate` 
-		INNER JOIN Poslanik ON GrupisanePlate.PoslanikID = Poslanik.PoslanikID         
-                 INNER JOIN PoslanickiKlub ON Poslanik.PoslKlubID = PoslanickiKlub.PoslKlubID       
-		GROUP BY GrupisanePlate.PoslanikID, Kvartal");
+      	$data = $conn->prepare("SELECT Poslanik.PoslanikID AS id, Poslanik.Ime AS ime, Poslanik.Prezime AS prezime, Poslanik.Pol AS pol, Profesija.naziv AS profesija, Poslanik.godiste AS godiste, Poslanik.OpozicijaID AS opozicija, PoslanickiKlub.kratak AS stranka, SUM(  `Prihod` ) AS UkupnaPlata, Kvartal
+FROM  `GrupisanePlate` 
+INNER JOIN Poslanik ON GrupisanePlate.PoslanikID = Poslanik.PoslanikID
+INNER JOIN PoslanickiKlub ON Poslanik.PoslKlubID = PoslanickiKlub.PoslKlubID
+INNER JOIN Profesija ON Profesija.ProfesijaId = Poslanik.profesija
+GROUP BY GrupisanePlate.PoslanikID, Kvartal");
       	$res = $data->execute();
 		$result = $data->fetchAll(PDO::FETCH_ASSOC);
 
@@ -469,7 +471,42 @@ private static function razvrstajKlubove($sqlNiz)
 		$noviRez[] = $tempPoslanik;
 	}
 	return $noviRez;
+	
+}
 
+
+
+private static function razvrstajProfesije($sqlNiz)
+{
+
+	$noviRez = array( );//inicijalizacija
+
+	$nizProfesija = array('inženjer' ,'ekonmista' ,'lekar' ,'penzioner' ,'politikolog','pravnik' ,'preduzetnik' ,'profesor' ,'profesor univerziteta' ,'student'  );
+	//$kljucevi = range(0,10); //mali hack -treba upit sa identifikatorima profesija
+
+
+	for ($brojac = 0, $lon = count($nizProfesija); $brojac < $lon ; $brojac++) { 
+		
+		$tempArrayGrup = array_filter( $sqlNiz, function ($el) use (&$brojac, $nizProfesija)
+					{													
+					return  $el['profesija']  == $nizProfesija[$brojac]; //$brojac;
+					} );
+
+					
+		if (count($tempArrayGrup) < 1 ) continue;
+		$tempArrayGrup = array_values($tempArrayGrup);
+		$podaci = $tempArrayGrup[0];
+
+		$tempArrayGrup = array_map(function ($el='')
+		{
+			return array("UkupnaPlata"=>$el['UkupnaPlata'], "Kvartal"=>$el["Kvartal"]);
+		}, $tempArrayGrup);
+							
+					
+		$tempPoslanik = array( "ime"=> "Profesija", "prezime"=>$podaci['profesija'], "profesija"=> $podaci['profesija']  ,'plate' => $tempArrayGrup);	
+		$noviRez[] = $tempPoslanik;
+	}
+	return $noviRez;
 	
 }
 
@@ -497,6 +534,36 @@ GROUP BY grupisano.Kvartal, grupisano.klubId
 
 		print_r(json_encode($noviRez ));
       } 
+
+
+
+ public static function prosekPoProfesijama()
+      { 
+      	$conn = Flight::db();
+      	$data = $conn->prepare("
+      		SELECT AVG( UkupnaPlata ) AS UkupnaPlata, Kvartal, profesija
+FROM (
+
+SELECT Poslanik.Ime AS ime, Poslanik.Prezime AS prezime, Poslanik.Pol AS pol, Poslanik.PoslanikID AS id, Poslanik.OpozicijaID, Profesija.naziv as profesija , SUM( `Prihod` ) AS UkupnaPlata, Kvartal
+FROM  `GrupisanePlate` 
+INNER JOIN Poslanik ON GrupisanePlate.PoslanikID = Poslanik.PoslanikID
+INNER JOIN Profesija ON Profesija.ProfesijaId = Poslanik.profesija
+GROUP BY GrupisanePlate.PoslanikID, Kvartal
+) AS grupisano
+where profesija in ('inženjer' ,'ekonmista' ,'lekar' ,'penzioner' ,'politikolog','pravnik' ,'preduzetnik' ,'profesor' ,'profesor univerziteta' ,'student')
+GROUP BY grupisano.Kvartal, grupisano.profesija
+
+      		");
+      	$res = $data->execute();
+		$result = $data->fetchAll(PDO::FETCH_ASSOC);
+
+		$noviRez = self::razvrstajProfesije($result)	;	
+		
+
+		print_r(json_encode($noviRez ));
+      } 
+
+    
 
 
 private static function razvrstajGodista($sqlNiz='')
